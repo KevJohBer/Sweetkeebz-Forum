@@ -1,0 +1,1 @@
+web: gunicorn sweetkeebz_forum.wsgi
