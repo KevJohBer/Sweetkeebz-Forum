@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 
+<h1>hello!</h1>
+
 {% block content %}
-    {% for post in posts %}
+    {% for post in post_list %}
         <div class="post">
             <a href="">
                 <h3 class="post-title">{{ post.title }}</h3>
