@@ -21,7 +21,6 @@ class Migration(migrations.Migration):
                 ('title', models.CharField(max_length=250, unique=True)),
                 ('slug', models.SlugField(max_length=250, unique=True)),
                 ('content', models.TextField()),
-                ('excerpt', models.TextField(blank=True)),
                 ('created_on', models.DateTimeField(auto_now_add=True)),
                 ('author', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
                 ('upvotes', models.ManyToManyField(blank=True, related_name='post_upvotes', to=settings.AUTH_USER_MODEL)),

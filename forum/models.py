@@ -4,9 +4,9 @@ from django.contrib.auth.models import User
 
 class Post(models.Model):
     title = models.CharField(max_length=250, unique=True)
+    slug = models.SlugField(null=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.TextField()
-    excerpt = models.TextField(blank=True)
     created_on = models.DateTimeField(auto_now_add=True)
     # this number is subtracted by number of downvotes
     upvotes = models.ManyToManyField(User, related_name='post_upvotes', blank=True)
@@ -19,6 +19,9 @@ class Post(models.Model):
 
     def total_upvotes(self):
         return self.upvotes.count()
+
+    def get_absolute_url(self):
+        return reverse("article_detail", kwargs={"slug": self.slug})
 
 
 class Comment(models.Model):

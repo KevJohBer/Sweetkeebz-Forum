@@ -4,4 +4,5 @@ from django.urls import path
 
 urlpatterns = [
     path('', views.Posts.as_view(), name='home'),
+    path('<slug:slug>/', views.fullPost.as_view(), name='full_post'),
 ]
