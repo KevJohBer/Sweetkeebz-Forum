@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 
 class Post(models.Model):
     title = models.CharField(max_length=250, unique=True)
+    excerpt = models.CharField(max_length=250, blank=True)
     slug = models.SlugField(null=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.TextField()
