@@ -1,13 +1,11 @@
 {% extends "base.html" %}
 
-<h1>hello!</h1>
-
 {% block content %}
     {% for post in post_list %}
         <div class="post">
             <a href="{% url 'full_post' post.slug %}">
                 <h3 class="post-title">{{ post.title }}</h3>
-                <p>Posted by:{{ post.author }} on {{ post.created_on }}</p>
+                <p>Posted by: {{ post.author }} on {{ post.created_on }}</p>
                 <p>{{ post.content }}</p>
             </a>
         </div>

@@ -7,16 +7,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://kit.fontawesome.com/98cbf5f74a.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="static/css/style.css">
     <title>Sweetkeebz Forum</title>
 </head>
 <body>
     <header>
-        <h1>Sweetkeebz Forum</h1>
+        <h1><a href="{% url 'home' %}">Sweetkeebz Forum</a></h1>
         <nav>
             <ul>
-                <li><a href="#">home</a></li>
-                <li><a href="#">about</a></li>
-                <li><a href="#">login</a></li>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Login</a></li>
+                <li class="create-post"><a href="{% url 'add' %}">Create Post</a></li>
             </ul>
         </nav>
     </header>

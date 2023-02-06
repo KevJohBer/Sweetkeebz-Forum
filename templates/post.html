@@ -5,11 +5,16 @@
 <!--so this is the actual post-->
 <h2>{{ post.title }}</h2>
 <p>Posted by: {{ post.author }} on {{ post.created_on }}</p>
-<a href="#"><i class="fa-regular fa-triangle"></i><i class="fa-solid fa-triangle"></i></a>
 <p>{{ post.content }}</p>
+<hr>
+<form action="post">
+    <input type="text" placeholder="Write your comment here">
+</form>
+<input type="submit" value="Comment">
+<hr>
 <!--here are the comments-->
 {% for comment in comments %}
-    <h3>{{ comment.author }}</h3>
+    <p>{{ comment.author }}</p>
     <p>{{ comment.comment }}</p>
     <p>{{ comment.created_on }}</p>
 {% endfor %}
