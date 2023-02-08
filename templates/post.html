@@ -7,10 +7,11 @@
 <p>Posted by: {{ post.author }} on {{ post.created_on }}</p>
 <p>{{ post.content }}</p>
 <hr>
-<form action="post">
-    <input type="text" placeholder="Write your comment here">
+<form method="POST">
+    {{ add_comment }}
+    {% csrf_token %}
+    <input type="submit" value="Comment">
 </form>
-<input type="submit" value="Comment">
 <hr>
 <!--here are the comments-->
 {% for comment in comments %}

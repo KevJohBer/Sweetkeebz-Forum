@@ -6,7 +6,14 @@
             <a href="{% url 'full_post' post.slug %}">
                 <h3 class="post-title">{{ post.title }}</h3>
                 <p>Posted by: {{ post.author }} on {{ post.created_on }}</p>
+                <ul>
+                    <li><a href="#">Edit</a></li>
+                    <li><a href="{% url 'delete' post.slug %}">Delete</a></li>
+                </ul>
                 <p>{{ post.content }}</p>
+                <a href="#">Upvote</a>
+                <a href="#">Downvote</a>
+                <a href="{% url 'full_post' post.slug %}">Comment</a>
             </a>
         </div>
         <hr>

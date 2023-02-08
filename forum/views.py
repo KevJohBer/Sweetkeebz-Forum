@@ -1,13 +1,18 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import generic, View
 from .models import Post, Comment
-from .forms import postForm
+from .forms import postForm, postComment
 
 
 class Posts(generic.ListView):
     model = Post
     post_list = Post.objects
     template_name = 'index.html'
+
+    def delete_post(request, slug):
+        post = get_object_or_404(Post, slug=slug)
+        post.delete()
+        return redirect('home')
 
 
 class fullPost(View):
@@ -21,20 +26,31 @@ class fullPost(View):
             'post.html',
             {
                 'post': post,
-                'comments': comments
+                'comments': comments,
+                'add_comment': postComment()
             },
         )
 
-    def post(self, request, *args, **kwargs):
-        post = get_object_or_404(Post.objects)
+    def post(self, request, slug, *args, **kwargs):
+        post = get_object_or_404(Post.objects, slug=slug)
         comments = post.comments.order_by('created_on')
+
+        add_comment = postComment(data=request.POST)
+
+        if add_comment.is_valid():
+            comment = add_comment.save(commit=False)
+            comment.post = post
+            comment.save()
+        else:
+            add_comment = postComment()
 
         return render(
             request,
-            "post_detail.html",
+            "post.html",
             {
                 "post": post,
-                "comments": comments
+                "comments": comments,
+                "add_comment": postComment(),
             }
         )
 
