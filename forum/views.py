@@ -55,7 +55,7 @@ class fullPost(View):
         )
 
 
-class editor(View):
+class addPost(View):
 
     def post(self, request, *args, **kwargs):
         form = postForm(data=request.POST)
@@ -69,3 +69,21 @@ class editor(View):
         form = postForm()
         context = {'form': form}
         return render(request, "post-editor.html", context)
+
+
+class updatePost(View):
+
+    def post(self, request, slug, *args, **kwargs):
+        post = get_object_or_404(Post, slug=slug)
+        form = postForm(data=request.POST, instance=post)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+        else:
+            form = postForm()
+
+    def get(self, request, slug, *args, **kwargs):
+        post = get_object_or_404(Post, slug=slug)
+        form = postForm(instance=post)
+        context = {'form': form}
+        return render(request, "update-post.html", context)

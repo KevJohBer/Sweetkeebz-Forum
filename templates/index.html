@@ -7,7 +7,7 @@
                 <h3 class="post-title">{{ post.title }}</h3>
                 <p>Posted by: {{ post.author }} on {{ post.created_on }}</p>
                 <ul>
-                    <li><a href="#">Edit</a></li>
+                    <li><a href="{% url 'edit' post.slug %}">Edit</a></li>
                     <li><a href="{% url 'delete' post.slug %}">Delete</a></li>
                 </ul>
                 <p>{{ post.content }}</p>
