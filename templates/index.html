@@ -11,9 +11,14 @@
                     <li><a href="{% url 'delete' post.slug %}">Delete</a></li>
                 </ul>
                 <p>{{ post.content }}</p>
-                <a href="#">Upvote</a>
-                <a href="#">Downvote</a>
+                <a href="{% url 'upvote' post.slug %}"><i class="fa-light fa-caret-up"></i></a>
+                <!--<span>{{ post.vote_result }}</span>-->
+                <a href="{% url 'downvote' post.slug %}"><i class="fa-light fa-caret-down"></i></a>
                 <a href="{% url 'full_post' post.slug %}">Comment</a>
+                <!--
+                <i class="fa-solid fa-caret-up"></i>
+                <i class="fa-solid fa-caret-down"></i>
+                -->
             </a>
         </div>
         <hr>

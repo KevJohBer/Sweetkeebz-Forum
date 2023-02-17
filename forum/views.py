@@ -1,7 +1,8 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.views import generic, View
 from .models import Post, Comment
 from .forms import postForm, postComment
+from django.http import HttpResponseRedirect
 
 
 class Posts(generic.ListView):
@@ -39,6 +40,7 @@ class fullPost(View):
 
         if add_comment.is_valid():
             comment = add_comment.save(commit=False)
+            add_comment.instance.author = request.user.username
             comment.post = post
             comment.save()
         else:
@@ -87,3 +89,29 @@ class updatePost(View):
         form = postForm(instance=post)
         context = {'form': form}
         return render(request, "update-post.html", context)
+
+
+class upvote(View):
+
+    def post(self, request, slug):
+        post = get_object_or_404(Post, slug=slug)
+
+        if post.upvote.filter(id=request.user.id).exists():
+            post.upvote.remove(request.user)
+        else:
+            post.upvote.add(request.user)
+
+        return HttpResponseRedirect(reverse('index.html', args=[slug]))
+
+
+class downvote(View):
+
+    def post(self, request, slug):
+        post = get_object_or_404(Post, slug=slug)
+
+        if post.downvote.filter(id=request.user.id).exists():
+            post.downvote.remove(request.user)
+        else:
+            post.downvote.add(request.user)
+
+        return HttpResponseRedirect(reverse('index.html', args=[slug]))
