@@ -7,6 +7,22 @@
 <p>Posted by: {{ post.author }} on {{ post.created_on }}</p>
 <p>{{ post.content }}</p>
 <hr>
+<form action="{% url 'upvote' post.slug %}" method="POST">
+    {% csrf_token %}
+    {% if upvoted  %}
+        <button type="submit" name="upvote" value="{{ post.id }}" class="btn btn-dark"><i class="fa-solid fa-caret-up"></i></button>
+    {% else %}
+        <button type="submit" name="upvote" value="{{ post.id }}" class="btn btn-secondary"><i class="fa-solid fa-caret-up"></i></button>
+    {% endif %}
+</form>
+<form action="{% url 'downvote' post.slug %}" method="POST">
+    {% csrf_token %}
+    {% if downvoted  %}
+        <button type="submit" name="downvote" value="{{ post.id }}" class="btn btn-dark"><i class="fa-solid fa-caret-down"></i></button>
+    {% else %}
+        <button type="submit" name="downvote" value="{{ post.id }}" class="btn btn-secondary"><i class="fa-solid fa-caret-down"></i></button>
+    {% endif %}
+</form>
 <form method="POST">
     {{ add_comment }}
     {% csrf_token %}
@@ -15,9 +31,8 @@
 <hr>
 <!--here are the comments-->
 {% for comment in comments %}
-    <p>{{ comment.author }}</p>
+    <p> commented by: <a href="#">{{ comment.author }}</a> on: {{ comment.created_on }}</p>
     <p>{{ comment.comment }}</p>
-    <p>{{ comment.created_on }}</p>
 {% endfor %}
 
 {% endblock %}
