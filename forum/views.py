@@ -15,12 +15,39 @@ class Posts(generic.ListView):
         post.delete()
         return redirect('home')
 
+    # def upvote(request, slug):
+    #     post = get_object_or_404(Post, slug=slug)
+    #     if post.upvote.filter(id=request.user.id).exists():
+    #         post.upvote.remove(request.user)
+    #     elif post.downvote.filter(id=request.user.id).exists():
+    #         post.downvote.remove(request.user)
+    #         post.upvote.add(request.user)
+    #     else:
+    #         post.upvote.add(request.user)
+
+    #     return redirect('home', args=[slug])
+
+    # def downvote(request, slug):
+    #     post = get_object_or_404(Post, slug=slug)
+    #     if post.downvote.filter(id=request.user.id).exists():
+    #         post.downvote.remove(request.user)
+    #     elif post.upvote.filter(id=request.user.id).exists():
+    #         post.upvote.remove(request.user)
+    #         post.downvote.add(request.user)
+    #     else:
+    #         post.downvote.add(request.user)
+
+    #     return redirect('home', args=[slug])
+
 
 class fullPost(View):
 
     def get(self, request, slug=None, *args, **kwargs):
         post = get_object_or_404(Post.objects, slug=slug)
         comments = post.comments.order_by('created_on')
+        vote_result = post.vote_result()
+        context = {}
+        context['vote_result'] = vote_result
         upvoted = False
         downvoted = False
         if post.upvote.filter(id=self.request.user.id).exists():
@@ -54,24 +81,6 @@ class fullPost(View):
         else:
             add_comment = postComment()
 
-    def upvote(self, request, slug):
-
-        post = get_object_or_404(Post, slug=slug)
-
-        if post.upvote.filter(id=self.request.user.id).exists():
-            post.upvote.remove(request.user)
-        else:
-            post.upvote.add(request.user)
-
-    def downvote(self, request, slug):
-
-        post = get_object_or_404(Post, slug=slug)
-
-        if post.downvote.filter(id=self.request.user.id).exists():
-            post.downvote.remove(request.user)
-        else:
-            post.downvote.add(request.user)
-
         return render(
             request,
             "post.html",
@@ -82,11 +91,52 @@ class fullPost(View):
             }
         )
 
+    def upvote(request, slug):
+        # allows user to upvote posts
+        post = get_object_or_404(Post, slug=slug)
+        if post.upvote.filter(id=request.user.id).exists():
+            post.upvote.remove(request.user)
+        elif post.downvote.filter(id=request.user.id).exists():
+            post.downvote.remove(request.user)
+            post.upvote.add(request.user)
+        else:
+            post.upvote.add(request.user)
+
+        return HttpResponseRedirect(reverse('full_post', args=[slug]))
+
+    def downvote(request, slug):
+        # allows user to downvote posts
+        post = get_object_or_404(Post, slug=slug)
+        if post.downvote.filter(id=request.user.id).exists():
+            post.downvote.remove(request.user)
+        elif post.upvote.filter(id=request.user.id).exists():
+            post.upvote.remove(request.user)
+            post.downvote.add(request.user)
+        else:
+            post.downvote.add(request.user)
+
+        return HttpResponseRedirect(reverse('full_post', args=[slug]))
+
+    def delete_comment(request, slug, item_id):
+        comment = get_object_or_404(Comment, id=item_id)
+        comment.delete()
+        return HttpResponseRedirect(reverse('full_post', args=[slug]))
+
+    def edit_comment(request, slug, item_id):
+        comment = get_object_or_404(Comment, id=item_id)
+        form = postComment(data=request.POST, instance=comment)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('full_post', args=[slug]))
+        else:
+            form = postComment()
+        return HttpResponseRedirect(reverse('full_post', args=[slug]))
+
 
 class addPost(View):
 
     def post(self, request, *args, **kwargs):
-        form = postForm(data=request.POST)
+        form = postForm(data=request.POST, files=request.FILES)
         form.instance.author = request.user
         form.instance.author_name = request.user.username
         if form.is_valid():
@@ -117,41 +167,3 @@ class updatePost(View):
         form = postForm(instance=post)
         context = {'form': form}
         return render(request, "update-post.html", context)
-
-
-class upvote(View):
-
-    def post(self, request, slug):
-
-        post = get_object_or_404(Post, slug=slug)
-        upvtd = post.upvote.filter(id=self.request.user.id).exists()
-        downvtd = post.downvote.filter(id=self.request.user.id).exists()
-
-        if upvtd:
-            post.upvote.remove(request.user)
-        elif downvtd:
-            post.downvote.remove(request.user)
-            post.upvote.add(request.user)
-        else:
-            post.upvote.add(request.user)
-
-        return HttpResponseRedirect(reverse('full_post', args=[slug]))
-
-
-class downvote(View):
-
-    def post(self, request, slug):
-
-        post = get_object_or_404(Post, slug=slug)
-        upvtd = post.upvote.filter(id=self.request.user.id).exists()
-        downvtd = post.downvote.filter(id=self.request.user.id).exists()
-
-        if downvtd:
-            post.downvote.remove(request.user)
-        elif upvtd:
-            post.upvote.remove(request.user)
-            post.downvote.add(request.user)
-        else:
-            post.downvote.add(request.user)
-
-        return HttpResponseRedirect(reverse('full_post', args=[slug]))

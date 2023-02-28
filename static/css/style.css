@@ -1,0 +1,17 @@
+/* post cards */
+
+.post {
+    display: flex;
+}
+
+h3 {
+    margin-bottom: 0;
+}
+
+p {
+    margin: auto;
+}
+
+.info {
+    color: grey;
+}

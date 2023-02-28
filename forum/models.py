@@ -13,6 +13,7 @@ class Post(models.Model):
     upvote = models.ManyToManyField(User, related_name='upvote', blank=True)
     downvote = models.ManyToManyField(User, related_name='downvote', blank=True)
     author_name = models.CharField(max_length=80, null=True)
+    image = models.ImageField(upload_to='images', default='placeholer')
 
     class Meta:
         ordering = ['-created_on']
@@ -28,8 +29,8 @@ class Post(models.Model):
             self.slug = slugify(self.title)
         return super().save(*args, **kwargs)
 
-    #  def vote_result(self):
-        #  return self.upvote.count()
+    def vote_result(self):
+        return self.upvote.count() - self.downvote.count()
 
 
 class Comment(models.Model):

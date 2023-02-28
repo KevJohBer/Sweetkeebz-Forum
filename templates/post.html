@@ -6,15 +6,16 @@
 <h2>{{ post.title }}</h2>
 <p>Posted by: {{ post.author }} on {{ post.created_on }}</p>
 <p>{{ post.content }}</p>
-<hr>
+<img src="{{ post.image.url }}" style="max-height: 300px" alt="image">
 <form action="{% url 'upvote' post.slug %}" method="POST">
     {% csrf_token %}
     {% if upvoted  %}
-        <button type="submit" name="upvote" value="{{ post.id }}" class="btn btn-dark"><i class="fa-solid fa-caret-up"></i></button>
+        <button type="submit" name="post_upvote" value="{{ post.id }}" class="btn btn-dark"><i class="fa-solid fa-caret-up"></i></button>
     {% else %}
-        <button type="submit" name="upvote" value="{{ post.id }}" class="btn btn-secondary"><i class="fa-solid fa-caret-up"></i></button>
+        <button type="submit" name="post_upvote" value="{{ post.id }}" class="btn btn-secondary"><i class="fa-solid fa-caret-up"></i></button>
     {% endif %}
 </form>
+<span>{{ post.vote_result }}</span>
 <form action="{% url 'downvote' post.slug %}" method="POST">
     {% csrf_token %}
     {% if downvoted  %}
@@ -23,6 +24,7 @@
         <button type="submit" name="downvote" value="{{ post.id }}" class="btn btn-secondary"><i class="fa-solid fa-caret-down"></i></button>
     {% endif %}
 </form>
+<hr>
 <form method="POST">
     {{ add_comment }}
     {% csrf_token %}
@@ -32,7 +34,17 @@
 <!--here are the comments-->
 {% for comment in comments %}
     <p> commented by: <a href="#">{{ comment.author }}</a> on: {{ comment.created_on }}</p>
+    <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            options
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="{% url 'edit-comment' post.slug comment.id %}">Edit</a>
+            <a class="dropdown-item" href="{% url 'delete-comment' post.slug comment.id %}">Delete</a>
+        </div>
+    </div>
     <p>{{ comment.comment }}</p>
+    <hr>
 {% endfor %}
 
 {% endblock %}
