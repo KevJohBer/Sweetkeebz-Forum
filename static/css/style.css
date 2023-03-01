@@ -1,11 +1,24 @@
 /* post cards */
 
-.post {
+.cards {
     display: flex;
+    flex-direction: column;
 }
 
-h3 {
-    margin-bottom: 0;
+.post-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 70%;
+}
+
+.post {
+    display: flex;
+    border: 1px;
+    border-style: solid;
+    border-color: grey;
+    border-radius: 5px;
 }
 
 p {
@@ -14,4 +27,22 @@ p {
 
 .info {
     color: grey;
+}
+
+.vote {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100px;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+}
+
+.three-dot-button {
+    border-style: none;
+    background-color: white;
 }

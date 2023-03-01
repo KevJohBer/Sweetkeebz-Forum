@@ -1,43 +1,51 @@
 {% extends "base.html" %}
 
 {% block content %}
+    <div class="cards">
     {% for post in post_list %}
+    <div class="post-card">
         <div class="post">
-            <a href="{% url 'full_post' post.slug %}">
-                <h3 class="post-title">{{ post.title }}</h3>
-                <p class="info">Posted by: {{ post.author }} on {{ post.created_on }}</p>
-                <p>{{ post.content }}</p>
-                <img src="{{ post.image.url }}" style="max-height: 300px" alt="image">
-            </a>
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        options
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="{% url 'edit' post.slug %}">Edit</a>
-                        <a class="dropdown-item" href="{% url 'delete' post.slug %}">Delete</a>
+            <div class="vote">
+                <form action="{% url 'out-upvote' post.slug %}" method="POST" class="upvote">
+                    {% csrf_token %}
+                    {% if upvoted  %}
+                        <button type="submit" name="upvote" value="{{ post.id }}" class="btn btn-dark"><i class="fa-solid fa-caret-up"></i></button>
+                    {% else %}
+                        <button type="submit" name="upvote" value="{{ post.id }}" class="btn btn-secondary"><i class="fa-solid fa-caret-up"></i></button>
+                    {% endif %}
+                </form>
+                <span>{{ post.vote_result }}</span>
+                <form action="{% url 'downvote' post.slug %}" method="POST" class="downvote">
+                    {% csrf_token %}
+                    {% if downvoted  %}
+                        <button type="submit" name="downvote" value="{{ post.id }}" class="btn btn-dark"><i class="fa-solid fa-caret-down"></i></button>
+                    {% else %}
+                        <button type="submit" name="downvote" value="{{ post.id }}" class="btn btn-secondary"><i class="fa-solid fa-caret-down"></i></button>
+                    {% endif %}
+                </form>
+            </div>
+            <div class="content">
+                <a href="{% url 'full_post' post.slug %}">
+                    <h3 class="post-title">{{ post.title }}</h3>
+                    <p class="info">Posted by: {{ post.author }} on {{ post.created_on }}</p>
+                    <p>{{ post.content }}</p>
+                    <img src="{{ post.image.url }}" style="max-height: 300px" alt="image">
+                </a>
+                <a href="{% url 'full_post' post.slug %}" class="comment-button">Comment</a>
+            </div>
+                {% if user.is_authenticated %}
+                    <div class="dropdown">
+                        <button class='three-dot-button' type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="{% url 'edit' post.slug %}">Edit</a>
+                            <a class="dropdown-item" href="{% url 'delete' post.slug %}">Delete</a>
+                        </div>
                     </div>
-                </div>
-                <!--<span>{{ post.vote_result }}</span>-->   
-                <a href="{% url 'full_post' post.slug %}">Comment</a>
-            <form action="{% url 'upvote' post.slug %}" method="POST">
-                {% csrf_token %}
-                {% if upvoted  %}
-                    <button type="submit" name="upvote" value="{{ post.id }}" class="btn btn-dark"><i class="fa-solid fa-caret-up" style="color: blue;"></i></button>
-                {% else %}
-                    <button type="submit" name="upvote" value="{{ post.id }}" class="btn btn-secondary"><i class="fa-solid fa-caret-up"></i></button>
                 {% endif %}
-            </form>
-            <span>{{ post.vote_result }}</span>
-            <form action="{% url 'downvote' post.slug %}" method="POST">
-                {% csrf_token %}
-                {% if downvoted  %}
-                    <button type="submit" name="downvote" value="{{ post.id }}" class="btn btn-dark"><i class="fa-solid fa-caret-down" style="color: red;"></i></button>
-                {% else %}
-                    <button type="submit" name="downvote" value="{{ post.id }}" class="btn btn-secondary"><i class="fa-solid fa-caret-down"></i></button>
-                {% endif %}
-            </form>
         </div>
-        <hr>
+    </div>
     {% endfor %}
+</div>
 {% endblock %}
