@@ -13,7 +13,7 @@ class Post(models.Model):
     upvote = models.ManyToManyField(User, related_name='upvote', blank=True)
     downvote = models.ManyToManyField(User, related_name='downvote', blank=True)
     author_name = models.CharField(max_length=80, null=True)
-    image = models.ImageField(upload_to='images', default='placeholer')
+    image = models.ImageField(upload_to='images', blank=True)
 
     class Meta:
         ordering = ['-created_on']

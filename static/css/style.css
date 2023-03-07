@@ -10,7 +10,6 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    width: 70%;
 }
 
 .post {
@@ -19,6 +18,7 @@
     border-style: solid;
     border-color: grey;
     border-radius: 5px;
+    width: 50%;
 }
 
 p {
@@ -27,6 +27,7 @@ p {
 
 .info {
     color: grey;
+    font-size: small;
 }
 
 .vote {
@@ -34,7 +35,6 @@ p {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    width: 100px;
 }
 
 .content {
@@ -45,4 +45,25 @@ p {
 .three-dot-button {
     border-style: none;
     background-color: white;
+}
+
+/* post editor */
+
+.form-container {
+    display: flex;
+    justify-content: center;
+}
+
+.post-form {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+
+/* post */
+
+.comment-form {
+    display: flex;
+    flex-direction: column;
+    width: 30%;
 }

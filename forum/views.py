@@ -45,7 +45,7 @@ class Posts(generic.ListView):
 
 class fullPost(View):
 
-    def get(self, request, slug=None, *args, **kwargs):
+    def get(self, request, slug=None, item_id=None, *args, **kwargs):
         post = get_object_or_404(Post.objects, slug=slug)
         comments = post.comments.order_by('created_on')
         vote_result = post.vote_result()
@@ -57,6 +57,10 @@ class fullPost(View):
             upvoted = True
         if post.downvote.filter(id=self.request.user.id).exists():
             downvoted = True
+        
+        form = postComment()
+
+        editing = False
 
         return render(
             request,
@@ -66,33 +70,56 @@ class fullPost(View):
                 'comments': comments,
                 'upvoted': upvoted,
                 'downvoted': downvoted,
-                'add_comment': postComment()
+                'form': form,
+                'editing': editing
             },
         )
 
-    def post(self, request, slug, *args, **kwargs):
-        post = get_object_or_404(Post.objects, slug=slug)
-        comments = post.comments.order_by('created_on')
+    def post(self, request, slug, item_id=None, *args, **kwargs):
+        post = get_object_or_404(Post, slug=slug)
+        form = postComment(data=request.POST)
 
-        add_comment = postComment(data=request.POST)
-
-        if add_comment.is_valid():
-            comment = add_comment.save(commit=False)
-            add_comment.instance.author = request.user.username
+        if form.is_valid():
+            comment = form.save(commit=False)
+            form.instance.author = request.user
             comment.post = post
             comment.save()
+            return HttpResponseRedirect(reverse('full_post', args=[slug]))
         else:
             add_comment = postComment()
 
+        return HttpResponseRedirect(reverse('full_post', args=[slug]))
+
+    def edit_comment(request, slug, item_id):
+        post = get_object_or_404(Post, slug=slug)
+        comment = get_object_or_404(Comment, id=item_id)
+        editing = True
+
+        edit_form = postComment(instance=comment)
+
+        if request.method == 'POST':
+            edit_form = postComment(instance=comment, data=request.POST)
+
+        if edit_form.is_valid():
+            edit_form.save()
+            return HttpResponseRedirect(reverse('full_post', args=[slug]))
+
         return render(
             request,
-            "post.html",
+            'post.html',
             {
-                "post": post,
-                "comments": comments,
-                "add_comment": postComment(),
-            }
+                'comment': comment,
+                'post': post,
+                'edit_form': edit_form,
+                'editing': editing
+            },
         )
+
+    def delete_comment(request, slug, item_id):
+        # Allows user to delete comments
+        comment = get_object_or_404(Comment, id=item_id)
+        comment.delete()
+        return HttpResponseRedirect(reverse('full_post', args=[slug]))
 
     def upvote(request, slug):
         # allows user to upvote posts
@@ -118,23 +145,6 @@ class fullPost(View):
         else:
             post.downvote.add(request.user)
 
-        return HttpResponseRedirect(reverse('full_post', args=[slug]))
-
-    def delete_comment(request, slug, item_id):
-        # Allows user to delete comments
-        comment = get_object_or_404(Comment, id=item_id)
-        comment.delete()
-        return HttpResponseRedirect(reverse('full_post', args=[slug]))
-
-    def edit_comment(request, slug, item_id):
-        # allows users to edit comments
-        comment = get_object_or_404(Comment, id=item_id)
-        form = postComment(data=request.POST, instance=comment)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(reverse('full_post', args=[slug]))
-        else:
-            form = postComment()
         return HttpResponseRedirect(reverse('full_post', args=[slug]))
 
 

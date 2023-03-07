@@ -9,29 +9,31 @@
                 <form action="{% url 'out-upvote' post.slug %}" method="POST" class="upvote">
                     {% csrf_token %}
                     {% if upvoted  %}
-                        <button type="submit" name="upvote" value="{{ post.id }}" class="btn btn-dark"><i class="fa-solid fa-caret-up"></i></button>
+                        <button type="submit" name="upvote" value="{{ post.id }}"><i class="fa-solid fa-caret-up"></i></button>
                     {% else %}
-                        <button type="submit" name="upvote" value="{{ post.id }}" class="btn btn-secondary"><i class="fa-solid fa-caret-up"></i></button>
+                        <button type="submit" name="upvote" value="{{ post.id }}"><i class="fa-solid fa-caret-up"></i></button>
                     {% endif %}
                 </form>
                 <span>{{ post.vote_result }}</span>
                 <form action="{% url 'downvote' post.slug %}" method="POST" class="downvote">
                     {% csrf_token %}
                     {% if downvoted  %}
-                        <button type="submit" name="downvote" value="{{ post.id }}" class="btn btn-dark"><i class="fa-solid fa-caret-down"></i></button>
+                        <button type="submit" name="downvote" value="{{ post.id }}"><i class="fa-solid fa-caret-down"></i></button>
                     {% else %}
-                        <button type="submit" name="downvote" value="{{ post.id }}" class="btn btn-secondary"><i class="fa-solid fa-caret-down"></i></button>
+                        <button type="submit" name="downvote" value="{{ post.id }}"><i class="fa-solid fa-caret-down"></i></button>
                     {% endif %}
                 </form>
             </div>
             <div class="content">
                 <a href="{% url 'full_post' post.slug %}">
-                    <h3 class="post-title">{{ post.title }}</h3>
                     <p class="info">Posted by: {{ post.author }} on {{ post.created_on }}</p>
+                    <h3 class="post-title">{{ post.title }}</h3>
                     <p>{{ post.content }}</p>
-                    <img src="{{ post.image.url }}" style="max-height: 300px" alt="image">
+                    {% if post.image != 'placeholer' %}
+                        <img src="{{ post.image.url }}" style="max-height: 300px" alt="No image attatched">
+                    {% endif %}
                 </a>
-                <a href="{% url 'full_post' post.slug %}" class="comment-button">Comment</a>
+                <a href="{% url 'full_post' post.slug %}" class="comment-button"><i class="fa-regular fa-message-dots"></i>Comment</a>
             </div>
                 {% if user.is_authenticated %}
                     <div class="dropdown">
