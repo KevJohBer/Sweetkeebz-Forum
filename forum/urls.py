@@ -17,4 +17,7 @@ urlpatterns = [
     path('<slug>/add-comment', views.fullPost.as_view(), name='add-comment'),
     path('<slug>/edit-comment/<item_id>', views.fullPost.edit_comment, name='edit-comment'),
     path('<slug>/delete-comment/<item_id>', views.fullPost.delete_comment, name='delete-comment'),
+    # profile page
+    path('profile', views.Profile.as_view(), name='user-profile'),
+    path('edit-profile', views.updateProfile.as_view(), name='edit-profile')
 ]

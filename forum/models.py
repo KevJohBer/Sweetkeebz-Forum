@@ -41,3 +41,12 @@ class Comment(models.Model):
 
     class Meta:
         ordering = ['-created_on']
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
+    avatar = models.ImageField(upload_to='images', blank=True)
+    about = models.TextField(max_length=180)
+
+    def __str__(self):
+        return self.user.username

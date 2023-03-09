@@ -1,23 +1,14 @@
 /* post cards */
 
-.cards {
+.card-container {
     display: flex;
     flex-direction: column;
-}
-
-.post-card {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
     align-items: center;
 }
 
 .post {
     display: flex;
-    border: 1px;
-    border-style: solid;
-    border-color: grey;
-    border-radius: 5px;
+    flex-direction: row;
     width: 50%;
 }
 
@@ -35,6 +26,14 @@ p {
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    padding: 20px;
+}
+
+.vote button {
+    border: none;
+    background-color: transparent;
+    color: black;
+    font-size: 62px;
 }
 
 .content {
@@ -65,5 +64,4 @@ p {
 .comment-form {
     display: flex;
     flex-direction: column;
-    width: 30%;
 }

@@ -1,8 +1,10 @@
 from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.views import generic, View
-from .models import Post, Comment
-from .forms import postForm, postComment
+from .models import Post, Comment, Profile
+from .forms import postForm, postComment, EditUser, EditProfile
 from django.http import HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 
 class Posts(generic.ListView):
@@ -57,7 +59,7 @@ class fullPost(View):
             upvoted = True
         if post.downvote.filter(id=self.request.user.id).exists():
             downvoted = True
-        
+ 
         form = postComment()
 
         editing = False
@@ -177,8 +179,41 @@ class updatePost(View):
         else:
             form = postForm()
 
+    @login_required
     def get(self, request, slug, *args, **kwargs):
         post = get_object_or_404(Post, slug=slug)
         form = postForm(instance=post)
         context = {'form': form}
         return render(request, "update-post.html", context)
+
+
+class Profile(View):
+
+    def get(self, request, *args, **kwargs):
+        profile = request.user.profile
+        posts = Post.objects.filter(author=request.user)
+        return render(request, 'user-profile.html', {
+            'profile': profile,
+            'posts': posts,
+            })
+
+
+class updateProfile(View):
+
+    def get(self, request, *args, **kwargs):
+        edit_user = EditUser(instance=request.user)
+        edit_profile = EditProfile(instance=request.user.profile)
+        return render(request, 'edit-profile.html', {
+            'edit_user': edit_user,
+            'edit_profile': edit_profile
+            })
+
+    def post(self, request, *args, **kwargs):
+        edit_user = EditUser(request.POST, instance=request.user)
+        edit_profile = EditProfile(request.POST, request.FILES, instance=request.user.profile)
+
+        if edit_user.is_valid() and edit_profile.is_valid():
+            edit_user.save()
+            edit_profile.save()
+            messages.success(request, 'Your profile has updated successfully')
+            return redirect(to='user-profile')
