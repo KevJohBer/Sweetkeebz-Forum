@@ -13,7 +13,7 @@ class Post(models.Model):
     upvote = models.ManyToManyField(User, related_name='upvote', blank=True)
     downvote = models.ManyToManyField(User, related_name='downvote', blank=True)
     author_name = models.CharField(max_length=80, null=True)
-    image = models.ImageField(upload_to='images', blank=True)
+    image = models.ImageField(upload_to='images', blank=True, default='placeholder')
 
     class Meta:
         ordering = ['-created_on']
@@ -45,7 +45,7 @@ class Comment(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
-    avatar = models.ImageField(upload_to='images', blank=True)
+    avatar = models.ImageField(upload_to='images', blank=True, default='placeholder')
     about = models.TextField(max_length=180)
 
     def __str__(self):

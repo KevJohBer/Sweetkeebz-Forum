@@ -1,62 +1,68 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <a href="{% url 'edit-profile' %}">Edit Profile</a>
-    <h1>{{ user.username }}</h1>
-    <p>{{ profile.about }}</p>
-    <img src="{{ profile.avatar }}" alt="profile-picture" style="height: 300px; width: 300px;">
-    {% for post in posts %}
-        <p>Hello!</p>
-        <div class="card post">
-            <div class="vote">
-                {% if user.is_authenticated %}
-                <form action="{% url 'out-upvote' post.slug %}" method="POST" class="upvote">
-                {% else %}
-                <form action="{% url 'account_login' %}">
-                {% endif %}
-                    {% csrf_token %}
-                    {% if upvoted  %}
-                        <button type="submit" name="upvote" value="{{ post.id }}"><i class="fa-solid fa-caret-up" style="color: #0085A1;"></i></button>
-                    {% else %}
-                        <button type="submit" name="upvote" value="{{ post.id }}"><i class="fa-solid fa-caret-up"></i></button>
-                    {% endif %}
-                </form>
-                <span>{{ post.vote_result }}</span>
-                {% if user.is_authenticated %}
-                <form action="{% url 'downvote' post.slug %}" method="POST" class="downvote">
-                {% else %}
-                <form action="{% url 'account_login' %}">
-                {% endif %}
-                    {% csrf_token %}
-                    {% if downvoted  %}
-                        <button type="submit" name="downvote" value="{{ post.id }}"><i class="fa-solid fa-caret-down" style="color: #0085A1;"></i></button>
-                    {% else %}
-                        <button type="submit" name="downvote" value="{{ post.id }}"><i class="fa-solid fa-caret-down"></i></button>
-                    {% endif %}
-                </form>
-            </div>
-            <div class="content">
-                <a href="{% url 'full_post' post.slug %}">
-                    <p class="info">Posted by: {{ post.author }} on {{ post.created_on }}</p>
-                    <h3 class="card-title">{{ post.title }}</h3>
-                    <p>{{ post.content }}</p>
-                    {% if post.image != 'placeholer' %}
-                        <img src="{{ post.image.url }}" style="max-height: 300px" alt="No image attatched">
-                    {% endif %}
-                </a>
-                <a href="{% url 'full_post' post.slug %}" class="comment-button"><i class="fa-regular fa-message-dots"></i>Comment</a>
-            </div>
-                {% if user.is_authenticated %}
-                    <div class="dropdown">
-                        <button class='three-dot-button' type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fa-solid fa-ellipsis-vertical"></i>
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="{% url 'edit' post.slug %}">Edit</a>
-                            <a class="dropdown-item" href="{% url 'delete' post.slug %}">Delete</a>
-                        </div>
-                    </div>
-                {% endif %}
+    <div class="profile">
+        <img src="{{ profile.avatar.url }}" alt="profile-picture" class="avatar">
+        <div class="name_about">
+            <h1>{{ user.username }}</h1>
+            <p>{{ profile.about }}</p>
         </div>
-    {% endfor %}
+    </div>
+    <a href="{% url 'edit-profile' %}">Edit Profile</a>
+    <div class="card-container">
+        <p>Posts made by {{ user.username }}:</p>
+        {% for post in posts %}
+            <div class="card post">
+                <div class="vote">
+                    {% if user.is_authenticated %}
+                    <form action="{% url 'out-upvote' post.slug %}" method="POST" class="upvote">
+                    {% else %}
+                    <form action="{% url 'account_login' %}">
+                    {% endif %}
+                        {% csrf_token %}
+                        {% if upvoted  %}
+                            <button type="submit" name="upvote" value="{{ post.id }}"><i class="fa-solid fa-caret-up" style="color: #0085A1;"></i></button>
+                        {% else %}
+                            <button type="submit" name="upvote" value="{{ post.id }}"><i class="fa-solid fa-caret-up"></i></button>
+                        {% endif %}
+                    </form>
+                    <span>{{ post.vote_result }}</span>
+                    {% if user.is_authenticated %}
+                    <form action="{% url 'downvote' post.slug %}" method="POST" class="downvote">
+                    {% else %}
+                    <form action="{% url 'account_login' %}">
+                    {% endif %}
+                        {% csrf_token %}
+                        {% if downvoted  %}
+                            <button type="submit" name="downvote" value="{{ post.id }}"><i class="fa-solid fa-caret-down" style="color: #0085A1;"></i></button>
+                        {% else %}
+                            <button type="submit" name="downvote" value="{{ post.id }}"><i class="fa-solid fa-caret-down"></i></button>
+                        {% endif %}
+                    </form>
+                </div>
+                <div class="content">
+                    <a href="{% url 'full_post' post.slug %}">
+                        <p class="info">Posted by: {{ post.author }} on {{ post.created_on }}</p>
+                        <h3 class="card-title">{{ post.title }}</h3>
+                        <p>{{ post.content }}</p>
+                        {% if post.image != 'placeholer' %}
+                            <img src="{{ post.image.url }}" style="max-height: 300px" alt="No image attatched">
+                        {% endif %}
+                    </a>
+                    <a href="{% url 'full_post' post.slug %}" class="comment-button"><i class="fa-regular fa-message-dots"></i>Comment</a>
+                </div>
+                    {% if user.is_authenticated %}
+                        <div class="dropdown">
+                            <button class='three-dot-button' type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa-solid fa-ellipsis-vertical"></i>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="{% url 'edit' post.slug %}">Edit</a>
+                                <a class="dropdown-item" href="{% url 'delete' post.slug %}">Delete</a>
+                            </div>
+                        </div>
+                    {% endif %}
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}

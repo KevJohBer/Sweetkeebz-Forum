@@ -9,7 +9,6 @@
 .post {
     display: flex;
     flex-direction: row;
-    width: 50%;
 }
 
 p {
@@ -26,7 +25,7 @@ p {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    padding: 20px;
+    padding: 0 20px;
 }
 
 .vote button {
@@ -39,6 +38,7 @@ p {
 .content {
     display: flex;
     flex-direction: column;
+    justify-content: center;
 }
 
 .three-dot-button {
@@ -62,6 +62,24 @@ p {
 /* post */
 
 .comment-form {
+    display: flex;
+    flex-direction: column;
+}
+
+/* profile */
+
+.profile {
+    display: flex;
+    align-items: center;
+}
+
+.avatar {
+    width: 200px;
+    height: 200px;
+    border-radius: 100px;
+}
+
+.name_about {
     display: flex;
     flex-direction: column;
 }
