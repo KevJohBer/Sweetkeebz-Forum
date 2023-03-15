@@ -5,10 +5,9 @@ from django.template.defaultfilters import slugify
 
 class Post(models.Model):
     title = models.CharField(max_length=250, unique=True)
-    excerpt = models.CharField(max_length=250, blank=True)
     slug = models.SlugField(null=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='author')
-    content = models.TextField()
+    content = models.TextField(blank=True)
     created_on = models.DateTimeField(auto_now_add=True)
     upvote = models.ManyToManyField(User, related_name='upvote', blank=True)
     downvote = models.ManyToManyField(User, related_name='downvote', blank=True)
@@ -44,7 +43,7 @@ class Comment(models.Model):
 
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     avatar = models.ImageField(upload_to='images', blank=True, default='placeholder')
     about = models.TextField(max_length=180)
 

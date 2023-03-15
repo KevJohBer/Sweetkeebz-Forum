@@ -12,8 +12,8 @@ urlpatterns = [
     path('edit/<slug>', views.updatePost.as_view(), name='edit'),
     # post detail
     path('<slug>/', views.fullPost.as_view(), name='full_post'),
-    path('upvote/<slug>', views.fullPost.upvote, name='upvote'),
-    path('downvote/<slug>', views.fullPost.downvote, name='downvote'),
+    path('upvote/<slug>/in', views.fullPost.upvote, name='upvote'),
+    path('downvote/<slug>/in', views.fullPost.downvote, name='downvote'),
     path('<slug>/add-comment', views.fullPost.as_view(), name='add-comment'),
     path('<slug>/edit-comment/<item_id>', views.fullPost.edit_comment, name='edit-comment'),
     path('<slug>/delete-comment/<item_id>', views.fullPost.delete_comment, name='delete-comment'),

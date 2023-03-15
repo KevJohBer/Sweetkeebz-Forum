@@ -5,12 +5,27 @@ from .forms import postForm, postComment, EditUser, EditProfile
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.db.models import Exists, OuterRef
 
 
 class Posts(generic.ListView):
     model = Post
     post_list = Post.objects
     template_name = 'index.html'
+
+    def get_context_data(self, **kwargs):
+
+        context = super(Posts, self).get_context_data(**kwargs)
+        upvoted = False
+        downvoted = False
+        for post in Post.objects.all():
+            if post.upvote.filter(id=self.request.user.id).exists():
+                upvoted = True
+            if post.downvote.filter(id=self.request.user.id).exists():
+                downvoted = True
+        context['upvoted'] = upvoted
+        context['downvoted'] = downvoted
+        return context
 
     def upvote(request, slug):
         # Allows user to upvote from outside the post
@@ -59,7 +74,7 @@ class fullPost(View):
             upvoted = True
         if post.downvote.filter(id=self.request.user.id).exists():
             downvoted = True
- 
+
         form = postComment()
 
         editing = False
@@ -124,7 +139,7 @@ class fullPost(View):
         return HttpResponseRedirect(reverse('full_post', args=[slug]))
 
     def upvote(request, slug):
-        # allows user to upvote posts
+        # allows user to upvote posts from inside the post
         post = get_object_or_404(Post, slug=slug)
         if post.upvote.filter(id=request.user.id).exists():
             post.upvote.remove(request.user)
@@ -137,7 +152,7 @@ class fullPost(View):
         return HttpResponseRedirect(reverse('full_post', args=[slug]))
 
     def downvote(request, slug):
-        # allows user to downvote posts
+        # allows user to downvote posts from inside the post
         post = get_object_or_404(Post, slug=slug)
         if post.downvote.filter(id=request.user.id).exists():
             post.downvote.remove(request.user)
@@ -179,7 +194,6 @@ class updatePost(View):
         else:
             form = postForm()
 
-    @login_required
     def get(self, request, slug, *args, **kwargs):
         post = get_object_or_404(Post, slug=slug)
         form = postForm(instance=post)
@@ -215,5 +229,5 @@ class updateProfile(View):
         if edit_user.is_valid() and edit_profile.is_valid():
             edit_user.save()
             edit_profile.save()
-            messages.success(request, 'Your profile has updated successfully')
-            return redirect(to='user-profile')
+            return redirect('user-profile')
+        return redirect('user-profile')

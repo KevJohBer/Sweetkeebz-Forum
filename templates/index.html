@@ -21,7 +21,7 @@
                             </form>
                             <span>{{ post.vote_result }}</span>
                             {% if user.is_authenticated %}
-                            <form action="{% url 'downvote' post.slug %}" method="POST" class="downvote">
+                            <form action="{% url 'out-downvote' post.slug %}" method="POST" class="downvote">
                             {% else %}
                             <form action="{% url 'account_login' %}">
                             {% endif %}
@@ -35,10 +35,10 @@
                         </div>
                         <div class="content">
                             <a href="{% url 'full_post' post.slug %}">
-                                <p class="info">Posted by: {{ post.author }} on {{ post.created_on }}</p>
-                                <h3 class="card-title">{{ post.title }}</h3>
+                                <p class="post-meta">Posted by: {{ post.author }} on {{ post.created_on }}</p>
+                                <h3 class="post-title">{{ post.title }}</h3>
                                 <p>{{ post.content }}</p>
-                                {% if post.image != 'placeholer' %}
+                                {% if post.image != 'placeholder' %}
                                     <img src="{{ post.image.url }}" style="max-height: 300px" alt="No image attatched">
                                 {% endif %}
                             </a>

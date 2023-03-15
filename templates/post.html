@@ -2,44 +2,50 @@
 
 {% block content %}
 
-<!--so this is the actual post-->
-<div class="card-container">
-    <div class="card post">
-        <div class="vote">
-            {% if user.is_authenticated %}
-                <form action="{% url 'upvote' post.slug %}" method="POST">
-            {% else %}
-                <form action="{% url 'account_login' %}">
-            {% endif %}
-                {% csrf_token %}
-                {% if upvoted  %}
-                    <button type="submit" name="post_upvote" value="{{ post.id }}"><i class="fa-solid fa-caret-up" style="color: #0085A1;"></i></button>
-                {% else %}
-                    <button type="submit" name="post_upvote" value="{{ post.id }}"><i class="fa-solid fa-caret-up"></i></button>
+<!--post-->
+<div class="mb-4">
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7 post">
+                <div class="vote">
+                    {% if user.is_authenticated %}
+                        <form action="{% url 'upvote' post.slug %}" method="POST">
+                    {% else %}
+                        <form action="{% url 'account_login' %}">
+                    {% endif %}
+                        {% csrf_token %}
+                        {% if upvoted  %}
+                            <button type="submit" name="post_upvote" value="{{ post.id }}"><i class="fa-solid fa-caret-up" style="color: #0085A1;"></i></button>
+                        {% else %}
+                            <button type="submit" name="post_upvote" value="{{ post.id }}"><i class="fa-solid fa-caret-up"></i></button>
+                        {% endif %}
+                    </form>
+                    <span>{{ post.vote_result }}</span>
+                    {% if user.is_authenticated %}
+                        <form action="{% url 'downvote' post.slug %}" method="POST">
+                    {% else %}
+                        <form action="{% url 'account_login' %}">
+                    {% endif %}
+                        {% csrf_token %}
+                        {% if downvoted  %}
+                            <button type="submit" name="downvote" value="{{ post.id }}"><i class="fa-solid fa-caret-down" style="color: #0085A1;"></i></button>
+                        {% else %}
+                            <button type="submit" name="downvote" value="{{ post.id }}"><i class="fa-solid fa-caret-down"></i></button>
+                        {% endif %}
+                    </form>
+                </div>
+                <div class="content">
+                    <h2 class="card-title">{{ post.title }}</h2>
+                    <blockquote>Posted by: {{ post.author }} on {{ post.created_on }}</blockquote>
+                    <p class="card-text">{{ post.content }}</p>
+                {% if post.image != 'placeholder' %}
+                    <img src="{{ post.image.url }}" style="max-height: 300px" alt="image">
                 {% endif %}
-            </form>
-            <span>{{ post.vote_result }}</span>
-            {% if user.is_authenticated %}
-                <form action="{% url 'downvote' post.slug %}" method="POST">
-            {% else %}
-                <form action="{% url 'account_login' %}">
-            {% endif %}
-                {% csrf_token %}
-                {% if downvoted  %}
-                    <button type="submit" name="downvote" value="{{ post.id }}"><i class="fa-solid fa-caret-down" style="color: #0085A1;"></i></button>
-                {% else %}
-                    <button type="submit" name="downvote" value="{{ post.id }}"><i class="fa-solid fa-caret-down"></i></button>
-                {% endif %}
-            </form>
-        </div>
-        <div class="content">
-            <h2 class="card-title">{{ post.title }}</h2>
-            <blockquote>Posted by: {{ post.author }} on {{ post.created_on }}</blockquote>
-            <p class="card-text">{{ post.content }}</p>
-        <img src="{{ post.image.url }}" style="max-height: 300px" alt="image">
+                </div>
+            </div>
         </div>
     </div>
-</div>
+</div>        
 <hr>
 <div class="card-container">
     {% if not editing %}
@@ -59,23 +65,32 @@
 <hr>
 <!--here are the comments-->
 {% if not editing %}
-    {% for comment in comments %}
-        <p> commented by: <a href="#">{{ comment.author }}</a> on: {{ comment.created_on }}</p>
-        {% if user.is_authenticated %}
-        <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                options
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="{% url 'edit-comment' post.slug comment.id %}">Edit</a>
-                <a class="dropdown-item" href="{% url 'delete-comment' post.slug comment.id %}">Delete</a>
+    <div class="containter px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                {% for comment in comments %}
+                    {% if user.is_authenticated %}
+                    <div class="dropdown edit-comment">
+                        <button class="three-dot-button" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="{% url 'edit-comment' post.slug comment.id %}">Edit</a>
+                            <a class="dropdown-item" href="{% url 'delete-comment' post.slug comment.id %}">Delete</a>
+                        </div>
+                    </div>
+                    {% endif %}
+                    <div class="post-preview">
+                        <p class="post-meta"> commented by: <a href="#">{{ comment.author }}</a> on: {{ comment.created_on }}</p>
+                        <p>{{ comment.comment }}</p>
+                    </div>
+                    <hr class="my-4">
+                {% endfor %}
             </div>
         </div>
-        {% endif %}
-        <p>{{ comment.comment }}</p>
-        <hr>
-    {% endfor %}
+    </div>
 {% else %}
+    <!-- for editing comments -->
     <form method="POST" class="comment-form" action="{% url 'edit-comment' post.slug comment.id %}">
         {{ edit_form }}
         {% csrf_token %}
