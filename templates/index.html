@@ -34,17 +34,21 @@
                             </form>
                         </div>
                         <div class="content">
+                            <p class="post-meta">Posted by: <a href="{% url 'user-profile' post.author.id %}">{{ post.author }}</a> on {{ post.created_on }}</p>
                             <a href="{% url 'full_post' post.slug %}">
-                                <p class="post-meta">Posted by: {{ post.author }} on {{ post.created_on }}</p>
                                 <h3 class="post-title">{{ post.title }}</h3>
                                 <p>{{ post.content }}</p>
                                 {% if post.image != 'placeholder' %}
                                     <img src="{{ post.image.url }}" style="max-height: 300px" alt="No image attatched">
                                 {% endif %}
                             </a>
-                            <a href="{% url 'full_post' post.slug %}" class="comment-button"><i class="fa-regular fa-message-dots"></i>Comment</a>
-                        </div>
                             {% if user.is_authenticated %}
+                            <a href="{% url 'full_post' post.slug %}" class="comment-button"><i class="fa-regular fa-message-dots"></i>Comment</a>
+                            {% else %}
+                            <a href="{% url 'account_login' %}" class="comment-button"><i class="fa-regular fa-message-dots"></i>Comment</a>
+                            {% endif %}
+                        </div>
+                            {% if user == post.author %}
                                 <div class="dropdown">
                                     <button class='three-dot-button' type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="fa-solid fa-ellipsis-vertical"></i>

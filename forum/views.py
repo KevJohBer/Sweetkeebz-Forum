@@ -3,8 +3,6 @@ from django.views import generic, View
 from .models import Post, Comment, Profile
 from .forms import postForm, postComment, EditUser, EditProfile
 from django.http import HttpResponseRedirect
-from django.contrib.auth.decorators import login_required
-from django.contrib import messages
 from django.db.models import Exists, OuterRef
 
 
@@ -64,7 +62,7 @@ class fullPost(View):
 
     def get(self, request, slug=None, item_id=None, *args, **kwargs):
         post = get_object_or_404(Post.objects, slug=slug)
-        comments = post.comments.order_by('created_on')
+        comment_list = post.comments.order_by('created_on')
         vote_result = post.vote_result()
         context = {}
         context['vote_result'] = vote_result
@@ -84,7 +82,7 @@ class fullPost(View):
             'post.html',
             {
                 'post': post,
-                'comments': comments,
+                'comment_list': comment_list,
                 'upvoted': upvoted,
                 'downvoted': downvoted,
                 'form': form,
@@ -92,18 +90,19 @@ class fullPost(View):
             },
         )
 
-    def post(self, request, slug, item_id=None, *args, **kwargs):
+    # allows user to comment
+    def post(self, request, slug, *args, **kwargs):
         post = get_object_or_404(Post, slug=slug)
         form = postComment(data=request.POST)
 
         if form.is_valid():
             comment = form.save(commit=False)
-            form.instance.author = request.user
+            comment.commenter = request.user
             comment.post = post
             comment.save()
             return HttpResponseRedirect(reverse('full_post', args=[slug]))
         else:
-            add_comment = postComment()
+            form = postComment()
 
         return HttpResponseRedirect(reverse('full_post', args=[slug]))
 
@@ -201,11 +200,11 @@ class updatePost(View):
         return render(request, "update-post.html", context)
 
 
-class Profile(View):
+class View_Profile(View):
 
-    def get(self, request, *args, **kwargs):
-        profile = request.user.profile
-        posts = Post.objects.filter(author=request.user)
+    def get(self, request, user, *args, **kwargs):
+        profile = get_object_or_404(Profile, id=user)
+        posts = Post.objects.filter(author=user)
         return render(request, 'user-profile.html', {
             'profile': profile,
             'posts': posts,
@@ -229,5 +228,4 @@ class updateProfile(View):
         if edit_user.is_valid() and edit_profile.is_valid():
             edit_user.save()
             edit_profile.save()
-            return redirect('user-profile')
-        return redirect('user-profile')
+        return redirect('user-profile', request.user.id)

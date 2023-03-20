@@ -18,7 +18,14 @@ class TestProfile(TestCase):
         self.post = Post.objects.create(
             title='Test Post',
             content='this is the content of the test post',
-            author=self.user
+            author=self.user,
+            image='test_image.jpg'
+        )
+
+        self.comment = Comment.objects.create(
+            post=self.post,
+            commenter=self.user,
+            comment='this is a test comment',
         )
 
     def tearDown(self):
@@ -27,5 +34,11 @@ class TestProfile(TestCase):
     def test_profile_creation(self):
         self.assertTrue(Profile.objects.filter(user=self.user).exists())
 
+    def test_set_default_profile_pic(self):
+        self.assertTrue(Profile.objects.filter(avatar='default.jpg').exists())
+
     def test_slug_creation(self):
         self.assertTrue(Post.objects.filter(slug='test-post').exists())
+
+    def test_comment(self):
+        self.assertTrue(Comment.objects.filter(commenter=self.user).exists())

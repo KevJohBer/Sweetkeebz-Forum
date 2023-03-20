@@ -4,13 +4,15 @@
     <div class="profile">
         <img src="{{ profile.avatar.url }}" alt="profile-picture" class="avatar">
         <div class="name_about">
-            <h1>{{ user.username }}</h1>
+            <h1>{{ profile }}</h1>
             <p>{{ profile.about }}</p>
         </div>
     </div>
-    <a href="{% url 'edit-profile' %}">Edit Profile</a>
+    {% if user == profile.user %}
+        <a href="{% url 'edit-profile' user %}">Edit Profile</a>
+    {% endif %}
     <hr>
-    <p>Posts made by {{ user.username }}:</p>
+    <p>Posts made by {{ profile.user }}:</p>
     <div class="container px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-7">

@@ -10,7 +10,7 @@ class PostAdmin(admin.ModelAdmin):
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ('post', 'comment', 'created_on', 'author')
+    list_display = ('post', 'comment', 'created_on', 'commenter')
 
 
 @admin.register(Profile)

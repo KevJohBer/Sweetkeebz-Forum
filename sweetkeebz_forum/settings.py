@@ -50,7 +50,7 @@ INSTALLED_APPS = [
     'forum',
 ]
 
-SITE_ID = 1 
+SITE_ID = 1
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'

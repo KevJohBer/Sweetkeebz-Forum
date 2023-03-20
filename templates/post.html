@@ -57,7 +57,7 @@
             {% endif %}
                 {{ form }}
                 {% csrf_token %}
-                <input type="submit" value="comment">
+                <input type="submit" value="comment" class="btn btn-primary">
             </form>
         </div>
     {% endif %}
@@ -68,20 +68,20 @@
     <div class="containter px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-7">
-                {% for comment in comments %}
-                    {% if user.is_authenticated %}
-                    <div class="dropdown edit-comment">
-                        <button class="three-dot-button" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fa-solid fa-ellipsis-vertical"></i>
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="{% url 'edit-comment' post.slug comment.id %}">Edit</a>
-                            <a class="dropdown-item" href="{% url 'delete-comment' post.slug comment.id %}">Delete</a>
+                {% for comment in comment_list %}
+                    {% if user == comment.commenter %}
+                        <div class="dropdown edit-comment">
+                            <button class="three-dot-button" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa-solid fa-ellipsis-vertical"></i>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="{% url 'edit-comment' post.slug comment.id %}">Edit</a>
+                                <a class="dropdown-item" href="{% url 'delete-comment' post.slug comment.id %}">Delete</a>
+                            </div>
                         </div>
-                    </div>
                     {% endif %}
                     <div class="post-preview">
-                        <p class="post-meta"> commented by: <a href="#">{{ comment.author }}</a> on: {{ comment.created_on }}</p>
+                        <p class="post-meta"> commented by: <a href="{% url 'user-profile' comment.commenter %}">{{ comment.commenter }}</a> on: {{ comment.created_on }}</p>
                         <p>{{ comment.comment }}</p>
                     </div>
                     <hr class="my-4">
@@ -91,11 +91,15 @@
     </div>
 {% else %}
     <!-- for editing comments -->
-    <form method="POST" class="comment-form" action="{% url 'edit-comment' post.slug comment.id %}">
-        {{ edit_form }}
-        {% csrf_token %}
-        <input type="submit" value="save changes">
-    </form>
+    <div class="card-container">
+        <div class="post">
+            <form method="POST" class="comment-form" action="{% url 'edit-comment' post.slug comment.id %}">
+                {{ edit_form }}
+                {% csrf_token %}
+                <input type="submit" value="save changes" class="btn btn-primary">
+            </form>
+        </div>
+    </div>
 {% endif %}
 
 {% endblock %}

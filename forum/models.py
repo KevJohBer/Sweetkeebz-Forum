@@ -34,7 +34,7 @@ class Post(models.Model):
 
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
-    author = models.CharField(max_length=80)
+    commenter = models.ForeignKey(User, on_delete=models.CASCADE, related_name='commenter')
     comment = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
 
@@ -43,8 +43,8 @@ class Comment(models.Model):
 
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    avatar = models.ImageField(upload_to='images', blank=True, default='placeholder')
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    avatar = models.ImageField(upload_to='images', default='default.jpg')
     about = models.TextField(max_length=180)
 
     def __str__(self):

@@ -1,3 +1,10 @@
+/* header */
+
+.header-picture {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
 /* post cards */
 
 .card-container {
@@ -9,10 +16,6 @@
 .post {
     display: flex;
     flex-direction: row;
-}
-
-p {
-    margin: auto;
 }
 
 .info {
