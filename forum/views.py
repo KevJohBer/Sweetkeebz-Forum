@@ -14,6 +14,9 @@ class Posts(generic.ListView):
     def get_context_data(self, **kwargs):
 
         context = super(Posts, self).get_context_data(**kwargs)
+
+        comment_count = self.post_list.count()
+        
         upvoted = False
         downvoted = False
         for post in Post.objects.all():
@@ -23,6 +26,7 @@ class Posts(generic.ListView):
                 downvoted = True
         context['upvoted'] = upvoted
         context['downvoted'] = downvoted
+        context['comment_count'] = comment_count
         return context
 
     def upvote(request, slug):
