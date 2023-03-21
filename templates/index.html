@@ -44,11 +44,11 @@
                             </a>
                             {% if user.is_authenticated %}
                             <a href="{% url 'full_post' post.slug %}" class="comment-button"><i class="fa-regular fa-comment"></i>
-                                <span>{{ comment_count }}</span>
+                                <span>{{ post.comments.count }}</span>
                             </a>
                             {% else %}
                             <a href="{% url 'account_login' %}" class="comment-button"><i class="fa-regular fa-comment"></i>
-                                <span>{{ comment_count }}</span>
+                                <span>{{ post.comments.count }}</span>
                             </a>
                             {% endif %}
                         </div>
