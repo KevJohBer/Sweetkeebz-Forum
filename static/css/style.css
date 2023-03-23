@@ -78,7 +78,9 @@
 
 .profile {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
+    padding-left: 20px;
+    flex-direction: column;
 }
 
 .avatar {
@@ -90,4 +92,44 @@
 .name_about {
     display: flex;
     flex-direction: column;
+    padding-left: 20px;
+}
+
+.avatar_info {
+    display: flex;
+    align-items: center;
+}
+
+/* forms */
+
+.form-item {
+    padding: 20px 0px;
+}
+
+.form-input {
+    width: 100%;
+    border-color: #bdbbbb;
+    border-top-style: none;
+    border-left-style: none;
+    border-right-style: none;
+    transition: 0.2s;
+}
+
+.form-input:focus {
+    width: 100%;
+    border-bottom: black, 2px;
+    border-color: black;
+    outline: none;
+}
+
+.form-input:focus::placeholder {
+    color: transparent;
+}
+
+#post-text {
+    
+}
+
+#post-button {
+    width: 15%;
 }

@@ -4,17 +4,23 @@
 <div class="form-container">
     <form action="add" method="POST" enctype="multipart/form-data" class="post-form">
         {% csrf_token %}
-        <label>Title</label>
-        {{ form.title }}
-        <label>Content</label>
-        {{ form.content }}
-        <div id="image.preview" onchange="getImagePreview(event)">
-            {{ form.image }}
+        <div class="form-item">
+            {{ form.title }}
         </div>
-        <div id="preview">
+        <div class="form-item">
+            {{ form.content }}
+        </div>
+        <div class="form-item">
+            <div id="image.preview" onchange="getImagePreview(event)">
+                {{ form.image }}
+            </div>
+        </div>
+        <div class="form-item">
+            <div id="preview">
 
+            </div>
         </div>
-        <input type="submit" value="Post" class="btn btn-primary"></input>
+        <input type="submit" value="Post" class="btn btn-primary" id="post-button"></input>
     </form>
 </div>
 
@@ -26,6 +32,11 @@
        newimg.src=image;
        imagediv.appendChild(newimg);
     }
+
+    $('textarea').keyup(function (e) {
+        var rows=$(this).val().split("\n");
+        $(this).prop('rows', rows.length);
+    })
 </script>
 
 {% endblock %}

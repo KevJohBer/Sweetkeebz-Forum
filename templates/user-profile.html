@@ -2,15 +2,17 @@
 
 {% block content %}
     <div class="profile">
-        <img src="{{ profile.avatar.url }}" alt="profile-picture" class="avatar">
-        <div class="name_about">
-            <h1>{{ profile }}</h1>
-            <p>{{ profile.about }}</p>
+        <div class="avatar_info">
+            <img src="{{ profile.avatar.url }}" alt="profile-picture" class="avatar">
+            <div class="name_about">
+                <h1>{{ profile }}</h1>
+                <p>{{ profile.about }}</p>
+            </div>
         </div>
+        {% if user == profile.user %}
+            <a href="{% url 'edit-profile' user %}" class="btn btn-primary">Edit Profile</a>
+        {% endif %}
     </div>
-    {% if user == profile.user %}
-        <a href="{% url 'edit-profile' user %}">Edit Profile</a>
-    {% endif %}
     <hr>
     <p>Posts made by {{ profile.user }}:</p>
     <div class="container px-4 px-lg-5">
@@ -50,11 +52,19 @@
                                 <p class="post-meta">Posted by: {{ post.author }} on {{ post.created_on }}</p>
                                 <h3 class="post-title">{{ post.title }}</h3>
                                 <p>{{ post.content }}</p>
-                                {% if post.image != 'placeholer' %}
+                                {% if post.image != 'placeholder' %}
                                     <img src="{{ post.image.url }}" style="max-height: 300px" alt="No image attatched">
                                 {% endif %}
                             </a>
-                            <a href="{% url 'full_post' post.slug %}" class="comment-button"><i class="fa-regular fa-message-dots"></i>Comment</a>
+                            {% if user.is_authenticated %}
+                            <a href="{% url 'full_post' post.slug %}" class="comment-button"><i class="fa-regular fa-comment"></i>
+                                <span>{{ post.comments.count }}</span>
+                            </a>
+                            {% else %}
+                            <a href="{% url 'account_login' %}" class="comment-button"><i class="fa-regular fa-comment"></i>
+                                <span>{{ post.comments.count }}</span>
+                            </a>
+                            {% endif %}
                         </div>
                             {% if user.is_authenticated %}
                                 <div class="dropdown">
@@ -68,6 +78,7 @@
                                 </div>
                             {% endif %}
                     </div>
+                    <hr class="my-4">
                 {% endfor %}
             </div>
         </div>

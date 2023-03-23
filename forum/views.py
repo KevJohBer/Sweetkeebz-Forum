@@ -11,22 +11,6 @@ class Posts(generic.ListView):
     post_list = Post.objects
     template_name = 'index.html'
 
-    def get_context_data(self, **kwargs):
-
-        context = super(Posts, self).get_context_data(**kwargs)
-
-        upvoted = False
-        downvoted = False
-        for post in Post.objects.all():
-            if post.upvote.filter(id=self.request.user.id).exists():
-                upvoted = True
-            if post.downvote.filter(id=self.request.user.id).exists():
-                downvoted = True
-
-        context['upvoted'] = upvoted
-        context['downvoted'] = downvoted
-        return context
-
     def upvote(request, slug):
         # Allows user to upvote from outside the post
         post = get_object_or_404(Post, slug=slug)
@@ -68,12 +52,6 @@ class fullPost(View):
         vote_result = post.vote_result()
         context = {}
         context['vote_result'] = vote_result
-        upvoted = False
-        downvoted = False
-        if post.upvote.filter(id=self.request.user.id).exists():
-            upvoted = True
-        if post.downvote.filter(id=self.request.user.id).exists():
-            downvoted = True
 
         form = postComment()
 
@@ -85,8 +63,6 @@ class fullPost(View):
             {
                 'post': post,
                 'comment_list': comment_list,
-                'upvoted': upvoted,
-                'downvoted': downvoted,
                 'form': form,
                 'editing': editing
             },
@@ -108,6 +84,7 @@ class fullPost(View):
 
         return HttpResponseRedirect(reverse('full_post', args=[slug]))
 
+    # allows user to edit comment
     def edit_comment(request, slug, item_id):
         post = get_object_or_404(Post, slug=slug)
         comment = get_object_or_404(Comment, id=item_id)
@@ -198,7 +175,10 @@ class updatePost(View):
     def get(self, request, slug, *args, **kwargs):
         post = get_object_or_404(Post, slug=slug)
         form = postForm(instance=post)
-        context = {'form': form}
+        context = {
+            'form': form,
+            'post': post,
+            }
         return render(request, "update-post.html", context)
 
 
@@ -216,11 +196,15 @@ class View_Profile(View):
 class updateProfile(View):
 
     def get(self, request, *args, **kwargs):
+        user = request.user
+        profile = request.user.profile
         edit_user = EditUser(instance=request.user)
         edit_profile = EditProfile(instance=request.user.profile)
         return render(request, 'edit-profile.html', {
             'edit_user': edit_user,
-            'edit_profile': edit_profile
+            'edit_profile': edit_profile,
+            'user': user,
+            'profile': profile,
             })
 
     def post(self, request, *args, **kwargs):

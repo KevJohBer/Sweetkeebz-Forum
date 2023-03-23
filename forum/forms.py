@@ -8,6 +8,22 @@ class postForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ['title', 'content', 'image']
+        widgets = {
+            'title': forms.TextInput(attrs={
+                'placeholder': 'Title',
+                'class': 'form-input'
+            }),
+            'content': forms.Textarea(attrs={
+                'placeholder': 'Content',
+                'class': 'form-input',
+                'id': 'post-text',
+                'rows': 1,
+            }),
+            'image': forms.FileInput(attrs={
+                'class': 'btn btn-primary',
+                'button': 'bruh',
+            }),
+        }
 
 
 class postComment(forms.ModelForm):
@@ -20,7 +36,6 @@ class EditUser(forms.ModelForm):
     username = forms.CharField(
         max_length=100,
         required=True,
-        widget=forms.TextInput(attrs={'class': 'form-control'})
     )
 
     class Meta:
