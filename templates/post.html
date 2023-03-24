@@ -47,6 +47,7 @@
     </div>
 </div>       
 <hr>
+<!-- comment text field -->
 <div class="card-container">
     {% if not editing %}
         <div class="post">
@@ -55,7 +56,9 @@
             {% else %}
                 <form action="{% url 'account_login' %}">
             {% endif %}
-                {{ form }}
+                <div class="form-item">
+                    {{ form.comment }}
+                </div>
                 {% csrf_token %}
                 <input type="submit" value="comment" class="btn btn-primary">
             </form>

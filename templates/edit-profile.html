@@ -3,37 +3,51 @@
 {% block content %}
 
 <div class="form-container">
-    <form method="POST" enctype="multipart/form-data">
+    <form method="POST" enctype="multipart/form-data" class="post-form">
         {% csrf_token %}
-        {{ edit_user.username }}
-        {{ edit_profile.about }}
-        <div id="image.preview" onchange="getImagePreview(event)">
-            {{ edit_profile.avatar }}
+        <div class="form-item">
+            {{ edit_user.username }}
         </div>
-        <div id="preview">
-            {% if profile.avatar != 'default.jpg' %}
+        <div class="form-item">
+            {{ edit_profile.about }}
+        </div>
+        <div class="form-item">
+            <div id="image.preview" onchange="getImagePreview(event)">
+                {{ edit_profile.avatar }}
+            </div>
+        </div>
+        <div class="form-item">
+            <button type="button" id="custom-button">
                 <img src="{{ profile.avatar.url }}" class="avatar" alt="No image attatched" id="currentImagePreview">
-            {% endif %}
+                <button type="button" id="setdefault" onclick="setDefault(event)"><i class="fa-sharp fa-solid fa-circle-xmark"></i></button>
+            </button>
         </div>
-        <input type="submit" value="save" class="btn btn-primary">
+        <div class="form-item">
+            <input type="submit" value="save" class="btn btn-primary">
+        </div>
     </form>
 </div>
 
 <script type="text/javascript">
+    var customFileBtn=document.getElementById('custom-button');
+    var realFileBtn=document.getElementById('realfilebutton');
+    customFileBtn.addEventListener('click', function() {
+        realFileBtn.click();
+    });
+
     function getImagePreview(event) {
-        var currentImage=document.getElementById('currentImagePreview')
+        var currentImage=document.getElementById('currentImagePreview');
         var image=URL.createObjectURL(event.target.files[0]);
-        var imagediv=document.getElementById('preview');
 
         if (document.body.contains(currentImage)) {
-            imagediv.removeChild(currentImage)
+            customFileBtn.removeChild(currentImage)
         };
         var newimg=document.createElement('img');
         newimg.src=image;
         newimg.id='currentImagePreview'
         newimg.style='border-radius: 100%; width: 200px; height: 200px;'
         newimg.class='avatar'
-        imagediv.appendChild(newimg);
+        customFileBtn.appendChild(newimg);
     }
 </script>
 

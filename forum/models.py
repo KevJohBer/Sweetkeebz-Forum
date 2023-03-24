@@ -49,3 +49,11 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+
+class Notification(models.Model):
+    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sender')
+    recipient = models.ForeignKey(User, on_delete=models.CASCADE, related_name='recipient')
+    message = models.TextField()
+    read = models.BooleanField(default=False)
+    recieved_date = models.DateTimeField(auto_now_add=True)

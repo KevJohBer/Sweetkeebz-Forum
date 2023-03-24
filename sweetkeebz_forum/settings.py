@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'django.contrib.staticfiles',
-    'forum',
+    'forum.apps.ForumConfig',
 ]
 
 SITE_ID = 1

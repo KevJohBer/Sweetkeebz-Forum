@@ -11,18 +11,17 @@ class postForm(forms.ModelForm):
         widgets = {
             'title': forms.TextInput(attrs={
                 'placeholder': 'Title',
-                'class': 'form-input'
+                'class': 'form-input',
             }),
             'content': forms.Textarea(attrs={
                 'placeholder': 'Content',
                 'class': 'form-input',
-                'id': 'post-text',
-                'rows': 1,
+                'rows': 3,
             }),
             'image': forms.FileInput(attrs={
-                'class': 'btn btn-primary',
-                'button': 'bruh',
-            }),
+                'hidden': 'hidden',
+                'id': 'realfilebutton'
+            })
         }
 
 
@@ -30,23 +29,40 @@ class postComment(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ['comment']
+        widgets = {
+            'comment': forms.Textarea(attrs={
+                'placeholder': 'comment',
+                'class': 'form-input',
+                'rows': 3
+            })
+        }
 
 
 class EditUser(forms.ModelForm):
-    username = forms.CharField(
-        max_length=100,
-        required=True,
-    )
-
     class Meta:
         model = User
         fields = ['username']
+        widgets = {
+            'username': forms.TextInput(attrs={
+                'placeholder': 'username',
+                'class': 'form-input',
+            })
+        }
 
 
 class EditProfile(forms.ModelForm):
-    avatar = forms.ImageField(widget=forms.FileInput(attrs={'class': 'form-control-file'}))
-    about = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 5}))
-
     class Meta:
         model = Profile
         fields = ['avatar', 'about']
+        widgets = {
+            'about': forms.Textarea(attrs={
+                'class': 'form-input',
+                'placeholder': 'About',
+                'rows': 3,
+            }),
+            'avatar': forms.FileInput(attrs={
+                'hidden': 'hidden',
+                'id': 'realfilebutton',
+                'class': 'form-input',
+            })
+        }

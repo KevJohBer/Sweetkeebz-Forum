@@ -108,7 +108,7 @@
 
 .form-input {
     width: 100%;
-    border-color: #bdbbbb;
+    border-bottom: solid #bdbbbb 2px;
     border-top-style: none;
     border-left-style: none;
     border-right-style: none;
@@ -117,8 +117,7 @@
 
 .form-input:focus {
     width: 100%;
-    border-bottom: black, 2px;
-    border-color: black;
+    border-bottom: solid black 2px;
     outline: none;
 }
 
@@ -126,10 +125,28 @@
     color: transparent;
 }
 
-#post-text {
-    
+#custom-button {
+    border: none;
+    background-color: transparent;
+    transition: 0.2s;
+    font-size: 32px;
 }
 
-#post-button {
-    width: 15%;
+#custom-button {
+    border: none;
+    background-color: transparent;
+}
+
+#custom-button:hover {
+    color: #0085A1;
+}
+
+#setdefault {
+    border: none;
+    background-color: transparent;
+    position: absolute;
+}
+
+#setdefault:hover {
+    color: #0085A1;
 }

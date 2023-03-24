@@ -5,10 +5,17 @@
 <div class="form-container">
     <form method="POST" class="post-form">
         {% csrf_token %}
-        {{ form.title }}
-        {{ form.content }}
-        <div id="image.preview" onchange="getImagePreview(event)">
-            {{ form.image }}
+        <div class="form-item">
+            {{ form.title }}
+        </div>
+        <div class="form-item">
+            {{ form.content }}
+        </div>
+        <div class="form-item">
+            <div id="image.preview" onchange="getImagePreview(event)">
+                <button type="button" id="custom-button"><i class="fa-sharp fa-regular fa-image"></i></button>
+                {{ form.image }}
+            </div>
         </div>
         <div id="preview">
             {% if post.image != 'placeholder' %}
@@ -20,6 +27,14 @@
 </div>
 
 <script type="text/javascript">
+
+    var realFileBtn = document.getElementById("realfilebutton");
+    var customFileBtn = document.getElementById('custom-button');
+
+    customFileBtn.addEventListener("click", function() {
+        realFileBtn.click();
+    });
+
     function getImagePreview(event) {
         var currentImage=document.getElementById('currentImagePreview')
         var image=URL.createObjectURL(event.target.files[0]);

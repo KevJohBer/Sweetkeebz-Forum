@@ -3,15 +3,20 @@
 {% block content %}
     <div class="profile">
         <div class="avatar_info">
-            <img src="{{ profile.avatar.url }}" alt="profile-picture" class="avatar">
+            {% if user == profile.user %}
+                <a href="{% url 'edit-profile' user %}">
+                    <image src="{{ profile.avatar.url }}" alt="profile-picture" class="avatar">
+                        <span><i class="fa-regular fa-pen-to-square"></i></span>
+                    </image>
+                </a>
+            {% else %}
+                <img src="{{ profile.avatar.url }}" alt="profile-picture" class="avatar">
+            {% endif %}
             <div class="name_about">
                 <h1>{{ profile }}</h1>
                 <p>{{ profile.about }}</p>
             </div>
         </div>
-        {% if user == profile.user %}
-            <a href="{% url 'edit-profile' user %}" class="btn btn-primary">Edit Profile</a>
-        {% endif %}
     </div>
     <hr>
     <p>Posts made by {{ profile.user }}:</p>
