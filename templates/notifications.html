@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    {% for notification in notification_list %}
+
+        <p>{{ notification.recieved_date }}</p>
+        <p>
+            <a href="{% url 'user-profile' notification.sender.id %}">
+                {{ notification.sender}}
+            </a>
+            commented on your 
+            <a href="#">post</a>
+        </p>
+
+    {% endfor %} 
+
+{% endblock %}

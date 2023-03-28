@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.views import generic, View
-from .models import Post, Comment, Profile
+from .models import Post, Comment, Profile, Notification
 from .forms import postForm, postComment, EditUser, EditProfile
 from django.http import HttpResponseRedirect
 from django.db.models import Exists, OuterRef
@@ -154,6 +154,8 @@ class addPost(View):
             return redirect('home')
         else:
             form = postForm()
+            error_msg = 'oops something went wrong! Please try again'
+            return render(request, "post-editor.html", {'form': form, 'error_msg': error_msg})
 
     def get(self, request, *args, **kwargs):
         form = postForm()
@@ -171,6 +173,8 @@ class updatePost(View):
             return redirect('home')
         else:
             form = postForm()
+            error_msg = 'oops, something went wrong, please try again'
+            return render(request, "update-post.html", {'form': form, 'error_msg': error_msg,})
 
     def get(self, request, slug, *args, **kwargs):
         post = get_object_or_404(Post, slug=slug)
@@ -215,3 +219,11 @@ class updateProfile(View):
             edit_user.save()
             edit_profile.save()
         return redirect('user-profile', request.user.id)
+
+
+class NotificationView(generic.ListView):
+
+    def get(self, request, *args, **kwargs):
+        notification_list = Notification.objects.filter(recipient=request.user)
+        model = Notification
+        return render(request, 'notifications.html', {'notification_list': notification_list})

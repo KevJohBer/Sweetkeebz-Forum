@@ -4,6 +4,7 @@
 
 <div class="form-container">
     <form method="POST" class="post-form">
+        <p style="color: red;">{{ error_msg }}</p>
         {% csrf_token %}
         <div class="form-item">
             {{ form.title }}

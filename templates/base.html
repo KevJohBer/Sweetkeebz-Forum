@@ -64,9 +64,9 @@
                     </li>
 
                     <li class="nav-item">
-                        <a href="#" class="nav-link px-lg-3 py-3 py-lg-4">
+                        <a href="{% url 'notifications' %}" class="nav-link px-lg-3 py-3 py-lg-4">
                             <i class="fa-regular fa-envelope" style="font-size: 18px"></i>
-                            <span>10</span>
+                            <span>{{ user.notification.count }}</span>
                         </a>
                     </li>
 
@@ -78,9 +78,9 @@
     <!-- header -->
     <header class="masthead header-picture" style="background-image: url({% static 'images/header-image.jpg' %})">
     </header>
-        {% block content %}
-        <!--posts go here-->
-        {% endblock %}
+    <div class="main-content">
+    {% block content %}
+    {% endblock %}
     </div>
     <footer class="border-top">
         <div class="container px-4 px-lg-5">
@@ -88,7 +88,7 @@
                 <div class="col-md-10 col-lg-8 col-xl-7">
                     <ul class="list-inline text-center">
                         <li class="list-inline-item">
-                            <a href="#">
+                            <a href="#!">
                                 <span class="fa-stack fa-lg">
                                     <i class="fas fa-circle fa-stack-2x"></i>
                                     <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
@@ -96,7 +96,7 @@
                             </a>
                         </li>
                         <li class="list-inline-item">
-                            <a href="#">
+                            <a href="#!">
                                 <span class="fa-stack fa-lg">
                                     <i class="fas fa-circle fa-stack-2x"></i>
                                     <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
@@ -104,16 +104,11 @@
                             </a>
                         </li>
                         <li class="list-inline-item">
-                            <a href="#">
+                            <a href="#!">
                                 <span class="fa-stack fa-lg">
                                     <i class="fas fa-circle fa-stack-2x"></i>
                                     <i class="fab fa-github fa-stack-1x fa-inverse"></i>
                                 </span>
-                            </a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a href="#">
-
                             </a>
                         </li>
                     </ul>
@@ -122,5 +117,6 @@
         </div>
     </footer>
 </body>
+
 
 </html>

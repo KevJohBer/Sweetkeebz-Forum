@@ -19,5 +19,7 @@ urlpatterns = [
     path('<slug>/delete-comment/<item_id>', views.fullPost.delete_comment, name='delete-comment'),
     # profile page
     path('profile/<user>', views.View_Profile.as_view(), name='user-profile'),
-    path('edit-profile/<user>', views.updateProfile.as_view(), name='edit-profile')
+    path('edit-profile/<user>', views.updateProfile.as_view(), name='edit-profile'),
+    # notifications page
+    path('notifications', views.NotificationView.as_view(), name='notifications'),
 ]

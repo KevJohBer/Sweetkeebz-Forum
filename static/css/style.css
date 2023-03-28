@@ -1,3 +1,17 @@
+/* body */
+
+body {
+    min-height: 100vh;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.main-content {
+    flex: 1;
+}
+
+
 /* header */
 
 .header-picture {
@@ -28,7 +42,7 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    padding: 0 20px;
+    padding-right: 20px;
 }
 
 .vote button {
@@ -87,6 +101,7 @@
     width: 200px;
     height: 200px;
     border-radius: 100px;
+    object-fit: cover;
 }
 
 .name_about {
@@ -149,4 +164,27 @@
 
 #setdefault:hover {
     color: #0085A1;
+}
+
+/* footer */
+
+footer {
+    display: flex;
+}
+
+
+@media screen and (max-width: 642px){
+
+    .profile {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .avatar_info {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+    }
 }
