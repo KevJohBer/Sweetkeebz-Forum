@@ -22,4 +22,6 @@ urlpatterns = [
     path('edit-profile/<user>', views.updateProfile.as_view(), name='edit-profile'),
     # notifications page
     path('notifications', views.NotificationView.as_view(), name='notifications'),
+    # about page
+    path('about', views.AboutView.as_view(), name='about')
 ]

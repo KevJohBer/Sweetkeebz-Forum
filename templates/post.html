@@ -84,7 +84,7 @@
                         </div>
                     {% endif %}
                     <div class="post-preview">
-                        <p class="post-meta"> commented by: <a href="{% url 'user-profile' comment.commenter %}">{{ comment.commenter }}</a> on: {{ comment.created_on }}</p>
+                        <p class="post-meta"> commented by: <a href="{% url 'user-profile' comment.commenter.id %}">{{ comment.commenter }}</a> on: {{ comment.created_on }}</p>
                         <p>{{ comment.comment }}</p>
                     </div>
                     <a href="#" class="btn btn-primary">Reply</a>

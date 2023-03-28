@@ -227,3 +227,9 @@ class NotificationView(generic.ListView):
         notification_list = Notification.objects.filter(recipient=request.user)
         model = Notification
         return render(request, 'notifications.html', {'notification_list': notification_list})
+
+
+class AboutView(View):
+    model = Post
+    content = 'hihi haha'
+    template_name = 'index.html'
