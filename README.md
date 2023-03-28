@@ -130,6 +130,8 @@ If you are viewing a post and the post has a comment that is made by you, then t
 ### Frameworks, libraries & Programs Used
 
 * Django Web Framework
+* Bootstrap
+* Font Awesome
 
 ## Deployment
 
@@ -146,12 +148,6 @@ Heroku was used to deploy the live website. Deployment instructions:
 
 ## Testing
 
-### Validation
+All testing can be found [here](TESTING.md)
 
-* HTML
-
-* CSS
-
-* Python
-
-* Javascript
+## Credits
