@@ -108,3 +108,5 @@ Tests were done using the following browsers:
 | Notification read | Clicking post in notifications should mark that post as read | click post | notification was marked as read | pass |
 
 ## Bugs
+
+There are currently no known bugs
