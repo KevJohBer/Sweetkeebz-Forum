@@ -22,6 +22,7 @@ urlpatterns = [
     path('edit-profile/<user>', views.updateProfile.as_view(), name='edit-profile'),
     # notifications page
     path('notifications', views.NotificationView.as_view(), name='notifications'),
+    path('notifications/<item_id>/<slug>', views.NotificationView.as_view(), name='read_notification'),
     # about page
-    path('about', views.AboutView.as_view(), name='about')
+    path('about', views.AboutView, name='about')
 ]

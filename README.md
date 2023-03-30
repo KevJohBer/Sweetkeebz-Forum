@@ -10,31 +10,30 @@ Sweetkeebz Forum is an online forum designed to let users communicate specifical
     * [Colour scheme](#colour-scheme)
     * [typography](#typography)
     * [imagery](#imagery)
-    * [Wireframes](#wireframes)
 * [Features](#features)
-    * [navbar](#navbar)
-    * [footer](#footer)
-    * [homepage](#home-page)
-    * [Future Implementations](#future-implementations)
-    * [Accessibility](#accessibility)
+    * [Navbar](#navbar)
+    * [Footer](#footer)
+    * [Home Page](#home-page)
+    * [About Page](#about-page)
+    * [Create Post](#create-post)
+    * [Profile page](#profile-page)
+    * [Notifications](#notifications)
+    * [Edit posts](#edit-posts)
+    * [Edit comments](#edit-comments)
+    * [Edit profile](#edit-profile)
 
 * [Technologies Used](#technologies-used)
     * [Languages Used](#languages-used)
     * [Frameworks, Libraries & Programs Used](#frameworks-libraries--programs-used)
 
 * [Deployment & Local Development](#deployment--local-development)
-    * [Deployment](#deployment)
-    * [Local Development](#local-development)
-    * [How to Fork](#how-to-fork)
-    * [How to Clone](#how-to-clone)
+    * [Deployment](#deployment-instructions)
 
 * [Testing](#testing)
 
 * [Credits](#credits)
   * [Code Used](#code-used)
-  * [Content](#content)
   * [Media](#media)
-  * [Acknowledgments](#acknowledgments)
 
 ---
 
@@ -94,6 +93,8 @@ If you decide to click on a post It will take you to the posts own page. Here yo
 
 ### About Page
 
+Clicking the "about" label on the navbar will take you to the about page. The about page contains information about the website, its history and goals.
+
 ### Create Post
 
 Clicking the "create post" label on the navbar will take you to a form. Here you have to choose a title for your post. Then you can choose to add some text to your post or add an image to your post. When picking an image, the image will be displayed so you can preview it to make sure it is the correct image being uploaded. Both text and image are optional. You are required to input a Title, the form will display an error message if the input is invalid. If the post is not related to keyboards or the post is inappropriate then it can be removed by an admin.
@@ -135,9 +136,9 @@ If you are viewing a post and the post has a comment that is made by you, then t
 
 ## Deployment
 
-### Deployment
+### Deployment Instructions
 
-Heroku was used to deploy the live website. Deployment instructions:
+Heroku was used to deploy the live website.
 
 1. Login to Heroku
 2. In the dashboard click your application
@@ -151,3 +152,17 @@ Heroku was used to deploy the live website. Deployment instructions:
 All testing can be found [here](TESTING.md)
 
 ## Credits
+
+### Code Used
+
+The post and comment models were inspired by the Code Institute Djangoblog tutorial
+
+The code for automatically creating profiles for users was taken from this [article](https://dev.to/earthcomfy/django-user-profile-3hik)
+
+The Notification model was taken from this stackoverflow [post](https://stackoverflow.com/questions/72264677/how-can-i-implement-notifications-system-in-django)
+
+### Media
+
+The navbar background image was taken from [here](https://wallhere.com/en/wallpaper/2096969)
+
+bootstratp template used was [Clean Blog](https://startbootstrap.com/theme/clean-blog)

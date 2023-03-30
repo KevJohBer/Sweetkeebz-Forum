@@ -3,7 +3,7 @@
 {% block content %}
 
 <div class="form-container">
-    <form method="POST" class="post-form">
+    <form method="POST" enctype="multipart/form-data" class="post-form">
         <p style="color: red;">{{ error_msg }}</p>
         {% csrf_token %}
         <div class="form-item">
@@ -20,7 +20,7 @@
         </div>
         <div id="preview">
             {% if post.image != 'placeholder' %}
-            <img src="{{ post.image.url }}" style="max-width: 100%;" alt="No image attatched" id="currentImagePreview">
+                <img src="{{ post.image.url }}" style="max-width: 100%;" alt="No image attatched" id="currentImagePreview">
             {% endif %}
         </div>
         <input type="submit" value="Save" class="btn btn-primary"></input>
@@ -46,7 +46,7 @@
         };
         var newimg=document.createElement('img');
         newimg.src=image;
-        newimg.class='avatar';
+        newimg.style='width: 100%;'
         newimg.id='currentImagePreview';
         imagediv.appendChild(newimg);
     }

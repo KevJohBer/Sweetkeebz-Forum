@@ -11,12 +11,23 @@ body {
     flex: 1;
 }
 
+a {
+    font-style: none;
+}
 
 /* header */
 
 .header-picture {
     padding-top: 0;
     padding-bottom: 0;
+}
+
+.nav-item {
+    font-size: 32px;
+}
+
+#notification-link {
+    display: flex;
 }
 
 /* post cards */
@@ -56,6 +67,14 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
+}
+
+.post-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
 }
 
 .three-dot-button {
@@ -187,4 +206,36 @@ footer {
         flex-direction: column;
         justify-content: center;
     }
+}
+
+/* about */
+
+/* notifications */
+
+.notification {
+    padding-top: 10px;
+    padding-left: 10px;
+    margin-bottom: 15px;
+}
+
+.notification input {
+    font-family: 'open sans';
+    font-weight: 800;
+    font-size: 18px;
+}
+
+#upload-date {
+    font-size: 18px;
+    color: gray;
+}
+
+.notification p {
+    margin: 0;
+}
+
+.new-notification {
+    width: 10px;
+    height: 10px;
+    background-color: #0085A1;
+    border-radius: 100px;
 }

@@ -167,7 +167,7 @@ class updatePost(View):
 
     def post(self, request, slug, *args, **kwargs):
         post = get_object_or_404(Post, slug=slug)
-        form = postForm(data=request.POST, instance=post)
+        form = postForm(data=request.POST, instance=post, files=request.FILES)
         if form.is_valid():
             form.save()
             return redirect('home')
@@ -228,8 +228,14 @@ class NotificationView(generic.ListView):
         model = Notification
         return render(request, 'notifications.html', {'notification_list': notification_list})
 
+    def post(self, request, item_id, slug, *args, **kwargs):
+        post = get_object_or_404(Post, slug=slug)
+        notification = get_object_or_404(Notification, id=item_id)
+        if not notification.read:
+            notification.read = True
+            notification.save()
+        return redirect('full_post', slug)
 
-class AboutView(View):
-    model = Post
-    content = 'hihi haha'
-    template_name = 'index.html'
+
+def AboutView(request):
+    return render(request, 'about.html')

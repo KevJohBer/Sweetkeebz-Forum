@@ -44,6 +44,7 @@ Full testing was performed with the following devices
 
 * Personal Computer
     * Acer Predator PO3-620
+    * MacBook Pro 2020 
 * Mobile device
     * Iphone SE (2022)
 
@@ -61,6 +62,7 @@ Tests were done using the following browsers:
 | Login/logout link | If not logged in, link should be labelled 'login' and when clicked, should redirect me to login form. If logged in, link should be labelled 'logout' and should redirect me to logout page | Clicked Link | When logged out, link was labelled 'login' and redirected to the login page. When logged, link was labelled 'logout' and redirected to the logout page | Pass |
 | Profile Page Link | When clicked, it should redirect to the logged in users profile page | Clicked Link | Link redirected to the logged in users profile page. | Pass |
 | Notifications Link | When clicked, it should redirect to the notifications page | Clicked Link | redirected to the notifications page | Pass |
+| Notification alert | When user has an unread notification, a blue dot will appear next to the notification link. | created comment on post that belonged to user | Blue dot appeared next to notification link | Pass |
 | `Footer` |
 | Twitter Link | When clicked should open Twitter in a new tab | Clicked Link | Redirected to Twitter in a new tab | Pass |
 | Facebook Link | When clicked should open Facebook in a new tab | Clicked Link | Redirected to Facebook in a new tab | Pass |
@@ -85,10 +87,11 @@ Tests were done using the following browsers:
 |`Create Post`|
 | Generate Form | Clicking create post should redirect to a form with the fields title, content and image | Click Link | generated a form with the fields Title content and image | Pass |
 | Generate Preview | Clicking the image button should let user choose image and generate a preview of chosen image | Click Button | Let user pick an image and preview it | Pass |
+| Changeing preview | When a user clicks the image button again and selects another image, the other image should be the one who is posted | Selected 2 different images and pressing post | pressing post uploaded the second image selected | Pass |
 | Post Button | Clicking the post button should allow you to post your content to the home page | Click Button | Posted to the home page | Pass |
 |`Edit Post`|
-| Form Already Filled | When clicking 'edit' on a post the form should be filled out with the original content of the post and should be editable | Click 'Edit' and change text |  |  |
-| Image Swappable | Clicking the image button should allow you to choose and preview a different image from the original | Change Image |  |  |
+| Form Already Filled | When clicking 'edit' on a post the form should be filled out with the original content of the post and should be editable | Click 'Edit' and change content on post | the content is editable | pass |
+| Image Swappable | Clicking the image button should allow you to choose and preview a different image from the original | Change Image and click save | image on post changed and was saved | Pass |
 | Invalid input | Inputting bad input should display an error message | Enter spaces instead of text | Displayed an error message | Pass |
 | Save Button | Clicking the save button should save the changes that you have made to the post | Click Save | Saved changes made to post | Pass |
 |`Profile`|
@@ -97,15 +100,11 @@ Tests were done using the following browsers:
 | Post Display | Profile page should display posts made by the profiles owner | Clicked profile link | Displayed posts only belonged to profile | Pass |
 |`Edit Profile`|
 | Profile Form | Edit profile form should be filled out with original content | Clicked Edit Profile | Form fields were already filled | Pass |
-| Avatar Field | Clicking the preveiw of the avatar should allow you to choose a different profile picture and preview it | Click Avatar | Allowed user to choose a different profile picture and preview it |  |
+| Avatar Field | Clicking the preview of the avatar should allow you to choose a different profile picture and preview it | Click Avatar | Allowed user to choose a different profile picture and preview it | Pass |
 | Save Profile | Clicking the save button should save the changes you made to your profile | clicked save | saved changes made to profile | Pass |
 |`Notifications`|
 | Notification Sender Link | clicking the notification sender should redirect you to the senders profile | click link | redirected to the senders profile | Pass |
-| Notification Post Link | clicking the notification post should redirect you to the post in question | Click link |  |  |
-|  |  |  |  |  |
-|  |  |  |  |  |
-|  |  |  |  |  |
-|  |  |  |  |  |
-|  |  |  |  |  |
+| Notification Post Link | clicking the notification post should redirect you to the post in question | Click link | redirected to correct post | Pass |
+| Notification read | Clicking post in notifications should mark that post as read | click post | notification was marked as read | pass |
 
 ## Bugs

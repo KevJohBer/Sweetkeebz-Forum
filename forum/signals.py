@@ -22,4 +22,5 @@ def comment_notice(sender, instance, created, *args, **kwargs):
         Notification.objects.create(
             sender=instance.commenter,
             recipient=instance.post.author,
+            post=instance.post
         )

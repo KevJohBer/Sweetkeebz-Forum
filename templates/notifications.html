@@ -2,17 +2,28 @@
 
 {% block content %}
 
-    {% for notification in notification_list %}
-
-        <p>{{ notification.recieved_date }}</p>
-        <p>
-            <a href="{% url 'user-profile' notification.sender.id %}">
-                {{ notification.sender}}
-            </a>
-            commented on your 
-            <a href="#">post</a>
-        </p>
-
-    {% endfor %} 
-
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                {% for notification in notification_list %}
+                    <div class="notification">
+                        <p id="upload-date">{{ notification.recieved_date }}</p>
+                        <p>
+                            <a href="{% url 'user-profile' notification.sender.id %}">
+                                {{ notification.sender}}
+                            </a>
+                            commented on your post
+                            <form action="{% url 'read_notification' notification.id notification.post.slug %}" method="POST">
+                                {% csrf_token %}
+                                <input type="submit" id="custom-button" value="{{notification.post.title}}">
+                            </form>
+                        </p>
+                        {% if not notification.read  %}
+                            <div class="new-notification"></div>
+                        {% endif %}
+                    </div>
+                {% endfor %} 
+            </div>
+        </div>
+    </div>
 {% endblock %}

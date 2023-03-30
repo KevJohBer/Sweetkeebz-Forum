@@ -45,3 +45,6 @@ class TestProfile(TestCase):
 
     def test_notification_creation(self):
         self.assertTrue(Notification.objects.filter(sender=self.user).exists)
+
+    def test_notification_post(self):
+        self.assertTrue(Notification.objects.filter(post=self.post))
