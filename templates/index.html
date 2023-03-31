@@ -48,20 +48,11 @@
                             <a href="{% url 'full_post' post.slug %}" style="display: flex; flex-direction: column;">
                                 <h3 class="post-title">{{ post.title }}</h3>
                                 <p class="post-text">{{ post.content }}</p>
-                                {% if post.image != 'placeholder' %}
+                                {% if post.image|default_if_none:'' %}
                                     <img src="{{ post.image.url }}" class="post-image" alt="No image attatched">
                                 {% endif %}
+                                <span><i class="fa-regular fa-comment"></i>{{ post.comments.count }}</span>
                             </a>
-                            {% if user.is_authenticated %}
-                            <a href="{% url 'full_post' post.slug %}" class="comment-button" title="comment">
-                                <i class="fa-regular fa-comment"></i>
-                                <span>{{ post.comments.count }}</span>
-                            </a>
-                            {% else %}
-                            <a href="{% url 'account_login' %}" class="comment-button"><i class="fa-regular fa-comment"></i>
-                                <span>{{ post.comments.count }}</span>
-                            </a>
-                            {% endif %}
                         </div>
                             {% if user == post.author %}
                                 <div class="dropdown">

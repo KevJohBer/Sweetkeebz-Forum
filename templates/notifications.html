@@ -6,6 +6,7 @@
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-7">
                 {% for notification in notification_list %}
+                <div style="display: flex;">
                     <div class="notification">
                         <p id="upload-date">{{ notification.recieved_date }}</p>
                         <p>
@@ -18,10 +19,11 @@
                                 <input type="submit" id="custom-button" value="{{notification.post.title}}">
                             </form>
                         </p>
-                        {% if not notification.read  %}
-                            <div class="new-notification"></div>
-                        {% endif %}
                     </div>
+                    {% if not notification.read  %}
+                        <div class="new-notification"></div>
+                    {% endif %}
+                </div>
                 {% endfor %} 
             </div>
         </div>
