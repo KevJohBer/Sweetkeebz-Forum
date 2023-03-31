@@ -38,7 +38,7 @@
                     <h2 class="post-title">{{ post.title }}</h2>
                     <p class="post-meta">Posted by: {{ post.author }} on {{ post.created_on }}</p>
                     <p>{{ post.content }}</p>
-                {% if post.image != 'placeholder' %}
+                {% if post.image|default_if_none:'' %}
                     <img src="{{ post.image.url }}" style="max-width: 100%" alt="No image attatched">
                 {% endif %}
                 </div>

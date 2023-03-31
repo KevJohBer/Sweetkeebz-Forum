@@ -41,6 +41,8 @@ a {
 .post {
     display: flex;
     flex-direction: row;
+    overflow: hidden;
+    height: 550px;
 }
 
 .post-image {
@@ -70,9 +72,7 @@ a {
 }
 
 .content {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    width: 100%;
 }
 
 .post-text {
