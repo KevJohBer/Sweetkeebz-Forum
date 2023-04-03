@@ -119,6 +119,32 @@ If you are viewing your own profile page and you press your own profile picture,
 
 If you are viewing a post and the post has a comment that is made by you, then the comment will also have a three dot icon on the top right. When clicked you can choose edit and it will take you to the original comment form but it will be filled with the same text as you originally posted. From here you can edit the text or add if you wish to do so.
 
+## Future implementations
+
+### More complex form validation
+
+Currently The title of posts raise an error if they are the same as another user or if the title section is empty but it would be nice to implement more validation so users cant post a title with only "|" symbols for instance. 
+
+### Vote notifications
+
+Currently users only get notifications from comments that have been made on their posts. They should also get notifications from upvotes and downvotes
+
+### Direct messages
+
+The site should implement direct messages so that users can communicate with eachother.
+
+### Reply
+
+The comment section should have a reply feature so that users can create a thread where they discuss the ideas they have about the post and its content. 
+
+### profile preveiw
+
+When a user sees a post by another user they should be able to see a small version of the users avatar so they get to see their profile picture.
+
+### Extended customizability
+
+Users should be able to customize their profiles even more, adding more information or images.
+
 ## Technologies used
 
 ### Languages Used
