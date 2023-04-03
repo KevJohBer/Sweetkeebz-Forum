@@ -154,13 +154,12 @@ class addPost(View):
             return redirect('home')
         else:
             form = postForm()
-            error_msg = 'oops something went wrong! Please try again'
-            return render(request, "post-editor.html", {'form': form, 'error_msg': error_msg})
+            errormsg = 'Oops, something went wrong!'
+            return render(request, "post-editor.html", {'form': form, 'errormsg': errormsg})
 
     def get(self, request, *args, **kwargs):
         form = postForm()
-        context = {'form': form}
-        return render(request, "post-editor.html", context)
+        return render(request, "post-editor.html", {'form': form})
 
 
 class updatePost(View):

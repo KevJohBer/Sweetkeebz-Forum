@@ -4,8 +4,8 @@
 <div class="form-container">
     <form action="add" method="POST" enctype="multipart/form-data" class="post-form">
         {% csrf_token %}
-        <p style="color: red;">{{ error_msg }}</p>
         <div class="form-item">
+            <span style="color: red;">{{ errormsg }}</span>
             {{ form.title }}
         </div>
         <div class="form-item">
