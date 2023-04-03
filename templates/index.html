@@ -52,7 +52,7 @@
                         <!-- post content -->
                         <div class="content">
                             <p class="post-meta">Posted by: <a href="{% url 'user-profile' post.author.id %}">{{ post.author }}</a> on {{ post.created_on }}</p>
-                            <a href="{% url 'full_post' post.slug %}" class="post-link" style="display: flex; flex-direction: column;">
+                            <a href="{% url 'full_post' post.slug %}" class="post-link">
                                 <h3 class="post-title">{{ post.title }}</h3>
                                 {% if post.content|default_if_none:'' %}
                                 <p class="post-text">{{ post.content }}</p>

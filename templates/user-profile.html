@@ -23,8 +23,11 @@
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-7">
                 {% for post in posts %}
+                    <!-- post container -->
                     <div class="post">
+                        <!-- upvote/downvote -->
                         <div class="vote">
+                            <!-- upvote -->
                             {% if user.is_authenticated %}
                             <form action="{% url 'out-upvote' post.slug %}" method="POST" class="upvote">
                             {% else %}
@@ -32,12 +35,18 @@
                             {% endif %}
                                 {% csrf_token %}
                                 {% if user in post.upvote.filter %}
-                                    <button type="submit" name="upvote" value="{{ post.id }}"><i class="fa-solid fa-caret-up" style="color: #0085A1;"></i></button>
+                                    <button type="submit" name="upvote" value="{{ post.id }}" title="Remove Upvote">
+                                        <i class="fa-solid fa-caret-up" style="color: #0085A1;"></i>
+                                    </button>
                                 {% else %}
-                                    <button type="submit" name="upvote" value="{{ post.id }}"><i class="fa-solid fa-caret-up"></i></button>
+                                    <button type="submit" name="upvote" value="{{ post.id }}" title="Upvote">
+                                        <i class="fa-solid fa-caret-up"></i>
+                                    </button>
                                 {% endif %}
                             </form>
+                            <!-- vote count -->
                             <span>{{ post.vote_result }}</span>
+                            <!-- downvote -->
                             {% if user.is_authenticated %}
                             <form action="{% url 'out-downvote' post.slug %}" method="POST" class="downvote">
                             {% else %}
@@ -45,23 +54,31 @@
                             {% endif %}
                                 {% csrf_token %}
                                 {% if user in post.downvote.filter  %}
-                                    <button type="submit" name="downvote" value="{{ post.id }}"><i class="fa-solid fa-caret-down" style="color: #0085A1;"></i></button>
+                                    <button type="submit" name="downvote" value="{{ post.id }}" title="Remove Downvote">
+                                        <i class="fa-solid fa-caret-down" style="color: #0085A1;"></i>
+                                    </button>
                                 {% else %}
-                                    <button type="submit" name="downvote" value="{{ post.id }}"><i class="fa-solid fa-caret-down"></i></button>
+                                    <button type="submit" name="downvote" value="{{ post.id }}" title="Downvote">
+                                        <i class="fa-solid fa-caret-down"></i>
+                                    </button>
                                 {% endif %}
                             </form>
                         </div>
+                        <!-- post content -->
                         <div class="content">
                             <p class="post-meta">Posted by: <a href="{% url 'user-profile' post.author.id %}">{{ post.author }}</a> on {{ post.created_on }}</p>
-                            <a href="{% url 'full_post' post.slug %}">
+                            <a href="{% url 'full_post' post.slug %}" class="post-link">
                                 <h3 class="post-title">{{ post.title }}</h3>
+                                {% if post.content|default_if_none:'' %}
                                 <p class="post-text">{{ post.content }}</p>
+                                {% endif %}
                                 {% if post.image|default_if_none:'' %}
-                                    <img src="{{ post.image.url }}" style="width: 100%; height: 60%; object-fit: cover;" alt="No image attatched">
+                                    <img src="{{ post.image.url }}" class="post-image" alt="No image attatched">
                                 {% endif %}
                                 <span><i class="fa-regular fa-comment"></i>{{ post.comments.count }}</span>
                             </a>
                         </div>
+                        <!-- post options -->
                             {% if user == post.author %}
                                 <div class="dropdown">
                                     <button class='three-dot-button' type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -74,6 +91,7 @@
                                 </div>
                             {% endif %}
                     </div>
+                    <hr class="my-4">
                 {% endfor %}
             </div>
         </div>
