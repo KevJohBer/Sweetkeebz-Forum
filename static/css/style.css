@@ -44,10 +44,16 @@ a {
     overflow: hidden;
 }
 
+.post-link {
+    display: flex;
+    flex-direction: column;
+    max-height: 578px;
+}
+
 .post-image {
     width: 100%; 
-    height: 60%; 
     object-fit: cover;
+    max-height: 340px;
 }
 
 .info {

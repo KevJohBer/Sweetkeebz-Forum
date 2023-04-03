@@ -3,12 +3,16 @@
 {% load static %}
 
 {% block content %}
+    <!-- post list container -->
     <div class="container px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-7">
                 {% for post in post_list %}
+                    <!-- post container -->
                     <div class="post">
+                        <!-- upvote/downvote -->
                         <div class="vote">
+                            <!-- upvote -->
                             {% if user.is_authenticated %}
                             <form action="{% url 'out-upvote' post.slug %}" method="POST" class="upvote">
                             {% else %}
@@ -25,7 +29,9 @@
                                     </button>
                                 {% endif %}
                             </form>
+                            <!-- vote count -->
                             <span>{{ post.vote_result }}</span>
+                            <!-- downvote -->
                             {% if user.is_authenticated %}
                             <form action="{% url 'out-downvote' post.slug %}" method="POST" class="downvote">
                             {% else %}
@@ -43,17 +49,21 @@
                                 {% endif %}
                             </form>
                         </div>
+                        <!-- post content -->
                         <div class="content">
                             <p class="post-meta">Posted by: <a href="{% url 'user-profile' post.author.id %}">{{ post.author }}</a> on {{ post.created_on }}</p>
-                            <a href="{% url 'full_post' post.slug %}" style="display: flex; flex-direction: column;">
+                            <a href="{% url 'full_post' post.slug %}" class="post-link" style="display: flex; flex-direction: column;">
                                 <h3 class="post-title">{{ post.title }}</h3>
+                                {% if post.content|default_if_none:'' %}
                                 <p class="post-text">{{ post.content }}</p>
+                                {% endif %}
                                 {% if post.image|default_if_none:'' %}
                                     <img src="{{ post.image.url }}" class="post-image" alt="No image attatched">
                                 {% endif %}
                                 <span><i class="fa-regular fa-comment"></i>{{ post.comments.count }}</span>
                             </a>
                         </div>
+                        <!-- post options -->
                             {% if user == post.author %}
                                 <div class="dropdown">
                                     <button class='three-dot-button' type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
